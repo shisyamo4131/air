@@ -2,13 +2,12 @@ import FireModel from './FireModel'
 
 const props = {
   props: {
-    email: { type: String, default: '', required: false },
-    password: { type: String, default: '', required: false },
     lastName: { type: String, default: '', required: false },
     firstName: { type: String, default: '', required: false },
     lastNameKana: { type: String, default: '', required: false },
     firstNameKana: { type: String, default: '', required: false },
     companyId: { type: String, default: '', required: false },
+    registrationDate: { type: String, default: '', required: false },
     birth: { type: String, default: '', required: false },
     gender: { type: String, default: 'male', required: false },
     zipcode: { type: String, default: '', required: false },
@@ -18,6 +17,8 @@ const props = {
     address2: { type: String, default: '', required: false },
     mobile: { type: String, default: '', required: false },
     tel: { type: String, default: '', required: false },
+    email: { type: String, default: '', required: false },
+    password: { type: String, default: '', required: false },
     status: { type: String, default: 'active', required: false },
     remarks: { type: String, default: '', required: false },
   },

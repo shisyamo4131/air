@@ -1,5 +1,5 @@
 <script>
-import { limit, orderBy, where } from 'firebase/firestore'
+import { limit, where } from 'firebase/firestore'
 import AIconRegist from '~/components/atoms/icons/AIconRegist.vue'
 import GDataTableMembers from '~/components/molecules/tables/GDataTableMembers.vue'
 import GTemplateDefault from '~/components/templates/GTemplateDefault.vue'
@@ -17,11 +17,7 @@ export default {
    ***************************************************************************/
   data() {
     return {
-      defaultConstraints: [
-        where('status', '==', 'active'),
-        orderBy('updateAt', 'desc'),
-        limit(10),
-      ],
+      defaultConstraints: [where('status', '==', 'active'), limit(10)],
       items: [],
       lazySearch: undefined,
       model: this.$Member(),

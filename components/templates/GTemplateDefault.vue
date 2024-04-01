@@ -52,6 +52,7 @@ export default {
       </slot>
     </v-toolbar>
     <div class="overflow-y-auto" :style="{ height: `${containerHeight}px` }">
+      <!-- <div> -->
       <slot name="default" v-bind="{ height: containerHeight }">
         <v-container fluid>
           <v-card>

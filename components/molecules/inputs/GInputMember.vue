@@ -69,6 +69,12 @@ export default {
       @input="$emit('update:companyId', $event)"
     />
     <g-date
+      :value="registrationDate"
+      label="登記日"
+      required
+      @input="$emit('update:registrationDate', $event)"
+    />
+    <g-date
       :value="birth"
       label="生年月日"
       required
@@ -115,6 +121,13 @@ export default {
       label="電話番号"
       input-type="tel"
       @input="$emit('update:tel', $event)"
+    />
+    <g-text-field
+      :value="email"
+      label="email"
+      required
+      input-type="email"
+      @input="$emit('update:email', $event)"
     />
     <g-textarea
       :value="remarks"

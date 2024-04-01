@@ -65,18 +65,24 @@ export default {
       label="建物名・階数"
       @input="$emit('update:address2', $event)"
     />
-    <g-text-field
-      :value="tel"
-      label="電話番号"
-      input-type="tel"
-      @input="$emit('update:tel', $event)"
-    />
-    <g-text-field
-      :value="fax"
-      label="FAX番号"
-      input-type="tel"
-      @input="$emit('update:fax', $event)"
-    />
+    <v-row dense>
+      <v-col cols="12" md="6">
+        <g-text-field
+          :value="tel"
+          label="電話番号"
+          input-type="tel"
+          @input="$emit('update:tel', $event)"
+        />
+      </v-col>
+      <v-col cols="12" md="6">
+        <g-text-field
+          :value="fax"
+          label="FAX番号"
+          input-type="tel"
+          @input="$emit('update:fax', $event)"
+        />
+      </v-col>
+    </v-row>
     <g-textarea
       :value="remarks"
       label="備考"

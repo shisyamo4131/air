@@ -52,12 +52,12 @@ export default {
   >
     <template #default>
       <g-template-default label="会社詳細">
-        <template #prepend-toolbar>
+        <template #prepend-titlebar>
           <v-btn icon @click="$router.push('/companies')">
             <a-icon-prev />
           </v-btn>
         </template>
-        <template #append-toolbar>
+        <template #append-titlebar>
           <v-spacer />
           <v-btn icon @click="$router.push(`/companies/${docId}/edit`)">
             <a-icon-edit color="undefined" />

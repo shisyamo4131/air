@@ -51,24 +51,28 @@ export default {
     @submit:complete="$router.replace('/members')"
   >
     <template #default>
-      <g-template-default label="会員詳細">
-        <template #prepend-toolbar>
+      <g-template-default label="会員情報">
+        <template #prepend-titlebar>
           <v-btn icon @click="$router.push('/members')">
             <a-icon-prev />
           </v-btn>
         </template>
-        <template #append-toolbar>
+        <template #append-titlebar>
           <v-spacer />
           <v-btn icon @click="$router.push(`/members/${docId}/edit`)">
             <a-icon-edit color="undefined" />
           </v-btn>
         </template>
-        <template #default>
+        <template #default="{ height }">
           <v-tabs v-model="tab">
             <v-tab>登録情報</v-tab>
             <v-tab>現場情報</v-tab>
           </v-tabs>
-          <v-container fluid>
+          <v-container
+            fluid
+            class="overflow-y-auto"
+            :style="{ height: `${height - 48}px` }"
+          >
             <v-tabs-items v-model="tab">
               <v-tab-item>
                 <v-card outlined>

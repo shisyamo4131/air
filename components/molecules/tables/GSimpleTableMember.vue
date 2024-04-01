@@ -6,10 +6,25 @@ import { props } from '~/models/Member'
  * @author shisyamo4131
  */
 export default {
+  /***************************************************************************
+   * MIXINS
+   ***************************************************************************/
   mixins: [props],
+  /***************************************************************************
+   * PROPS
+   ***************************************************************************/
   props: {
     fullName: { type: String, default: '', required: false },
     fullNameKana: { type: String, default: '', required: false },
+  },
+  /***************************************************************************
+   * COMPUTED
+   ***************************************************************************/
+  computed: {
+    company() {
+      const result = this.$store.getters['companies/get'](this.companyId)
+      return result || this.$Company()
+    },
   },
 }
 </script>
@@ -28,7 +43,11 @@ export default {
       </tr>
       <tr>
         <td>所属</td>
-        <td>{{ companyId }}</td>
+        <td>{{ company.name }}</td>
+      </tr>
+      <tr>
+        <td>登録日</td>
+        <td>{{ registrationDate }}</td>
       </tr>
       <tr>
         <td>生年月日</td>
@@ -36,7 +55,7 @@ export default {
       </tr>
       <tr>
         <td>性別</td>
-        <td>{{ gender }}</td>
+        <td>{{ $GENDER[gender] }}</td>
       </tr>
       <tr>
         <td>郵便番号</td>
@@ -57,6 +76,10 @@ export default {
       <tr>
         <td>電話番号</td>
         <td>{{ tel }}</td>
+      </tr>
+      <tr>
+        <td>email</td>
+        <td>{{ email }}</td>
       </tr>
       <tr>
         <td>備考</td>

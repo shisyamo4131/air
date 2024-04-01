@@ -8,6 +8,16 @@ const COMPANY_STATUS_ARRAY = [
   { value: 'expired', text: '閉鎖' },
 ]
 
+const GENDER = {
+  male: '男性',
+  female: '女性',
+}
+
+const GENDER_ARRAY = [
+  { value: 'male', text: '男性' },
+  { value: 'female', text: '女性' },
+]
+
 const MEMBER_STATUS = {
   active: '加入中',
   expired: '脱退済',
@@ -136,6 +146,8 @@ const WORK_SHIFT_ARRAY = [
 export default (context, inject) => {
   inject('COMPANY_STATUS', COMPANY_STATUS)
   inject('COMPANY_STATUS_ARRAY', COMPANY_STATUS_ARRAY)
+  inject('GENDER', GENDER)
+  inject('GENDER_ARRAY', GENDER_ARRAY)
   inject('MEMBER_STATUS', MEMBER_STATUS)
   inject('MEMBER_STATUS_ARRAY', MEMBER_STATUS_ARRAY)
   inject('CHAR_REGEXP', CHAR_REGEXP)

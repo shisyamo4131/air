@@ -11,6 +11,15 @@ export default {
    * COMPUTED
    ***************************************************************************/
   computed: {
+    labelClass() {
+      return {
+        'd-inline-flex': true,
+        'align-center': true,
+        'text-caption': true,
+        'pr-3': !this.$vuetify.breakpoint.mobile,
+        'justify-end': !this.$vuetify.breakpoint.mobile,
+      }
+    },
     style() {
       const isMobile = this.$vuetify.breakpoint.mobile
       return {
@@ -27,10 +36,7 @@ export default {
 
 <template>
   <div :class="{ 'd-flex': !$vuetify.breakpoint.mobile }">
-    <div
-      class="d-inline-flex align-center air-label text-caption pr-1"
-      :style="style"
-    >
+    <div :class="labelClass" :style="style">
       {{ label }}<span v-if="required" class="red--text">*</span>
     </div>
     <slot
