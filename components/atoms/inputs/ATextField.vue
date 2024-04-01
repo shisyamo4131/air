@@ -17,8 +17,11 @@ export default {
   props: {
     dense: { type: Boolean, default: true, required: false },
     ignoreSurrogatePair: { type: Boolean, default: false, required: false },
-    outlined: { type: Boolean, default: true, required: false },
-    requiredError: { type: String, default: '必須入力です', required: false },
+    emailError: {
+      type: String,
+      default: '正しくありません。',
+      required: false,
+    },
     katakanaError: {
       type: String,
       default: '全角カタカナ・スペースのみ使用可能です',
@@ -29,6 +32,8 @@ export default {
       default: (v) => /^[\u30A1-\u30F6ー\x20\u3000]+$/.test(v),
       required: false,
     },
+    outlined: { type: Boolean, default: true, required: false },
+    requiredError: { type: String, default: '必須入力です', required: false },
     rules: { type: Array, default: () => [], required: false },
     value: { type: undefined, default: undefined, required: false },
   },

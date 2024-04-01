@@ -2,10 +2,10 @@
 import AIconEdit from '~/components/atoms/icons/AIconEdit.vue'
 import AIconPrev from '~/components/atoms/icons/AIconPrev.vue'
 import ARenderlessCrud from '~/components/atoms/renderless/ARenderlessCrud.vue'
-import GSimpleTableCompany from '~/components/molecules/tables/GSimpleTableCompany.vue'
+import GSimpleTableMember from '~/components/molecules/tables/GSimpleTableMember.vue'
 import GTemplateDefault from '~/components/templates/GTemplateDefault.vue'
 /**
- * ## page.companies.docId
+ * ## page.members.docId
  *
  * @author shisyamo4131
  */
@@ -15,7 +15,7 @@ export default {
    ***************************************************************************/
   components: {
     GTemplateDefault,
-    GSimpleTableCompany,
+    GSimpleTableMember,
     ARenderlessCrud,
     AIconEdit,
     AIconPrev,
@@ -25,7 +25,7 @@ export default {
    ***************************************************************************/
   async asyncData({ app, route }) {
     const docId = route.params.docId
-    const model = app.$Company()
+    const model = app.$Member()
     await model.fetch(docId)
     return { docId, model }
   },
@@ -48,18 +48,18 @@ export default {
   <a-renderless-crud
     :model="model"
     edit-mode="DELETE"
-    @submit:complete="$router.replace('/companies')"
+    @submit:complete="$router.replace('/members')"
   >
     <template #default>
-      <g-template-default label="会社詳細">
+      <g-template-default label="会員詳細">
         <template #prepend-toolbar>
-          <v-btn icon @click="$router.push('/companies')">
+          <v-btn icon @click="$router.push('/members')">
             <a-icon-prev />
           </v-btn>
         </template>
         <template #append-toolbar>
           <v-spacer />
-          <v-btn icon @click="$router.push(`/companies/${docId}/edit`)">
+          <v-btn icon @click="$router.push(`/members/${docId}/edit`)">
             <a-icon-edit color="undefined" />
           </v-btn>
         </template>
@@ -72,7 +72,7 @@ export default {
             <v-tabs-items v-model="tab">
               <v-tab-item>
                 <v-card outlined>
-                  <g-simple-table-company v-bind="model" />
+                  <g-simple-table-member v-bind="model" />
                 </v-card>
               </v-tab-item>
               <v-tab-item>

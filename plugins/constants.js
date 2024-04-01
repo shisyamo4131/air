@@ -4,8 +4,18 @@ const COMPANY_STATUS = {
 }
 
 const COMPANY_STATUS_ARRAY = [
-  { value: 'active', text: '契約中' },
-  { value: 'expired', text: '契約終了' },
+  { value: 'active', text: '活動中' },
+  { value: 'expired', text: '閉鎖' },
+]
+
+const MEMBER_STATUS = {
+  active: '加入中',
+  expired: '脱退済',
+}
+
+const MEMBER_STATUS_ARRAY = [
+  { value: 'active', text: '加入中' },
+  { value: 'expired', text: '脱退済' },
 ]
 
 // 以下、使用することが確認でき次第↑へ
@@ -126,6 +136,8 @@ const WORK_SHIFT_ARRAY = [
 export default (context, inject) => {
   inject('COMPANY_STATUS', COMPANY_STATUS)
   inject('COMPANY_STATUS_ARRAY', COMPANY_STATUS_ARRAY)
+  inject('MEMBER_STATUS', MEMBER_STATUS)
+  inject('MEMBER_STATUS_ARRAY', MEMBER_STATUS_ARRAY)
   inject('CHAR_REGEXP', CHAR_REGEXP)
   inject('CHAR_REGEXP_ARRAY', CHAR_REGEXP_ARRAY)
   inject('DEADLINE', DEADLINE)

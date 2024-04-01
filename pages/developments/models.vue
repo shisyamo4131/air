@@ -6,6 +6,7 @@
  */
 import ASelect from '~/components/atoms/inputs/ASelect.vue'
 import GInputCompany from '~/components/molecules/inputs/GInputCompany.vue'
+import GInputMember from '~/components/molecules/inputs/GInputMember.vue'
 import GTemplateDefault from '~/components/templates/GTemplateDefault.vue'
 export default {
   /***************************************************************************
@@ -15,6 +16,7 @@ export default {
     GTemplateDefault,
     ASelect,
     GInputCompany,
+    GInputMember,
   },
   /***************************************************************************
    * DATA
@@ -26,6 +28,11 @@ export default {
           text: 'Company',
           model: this.$Company(),
           component: 'g-input-company',
+        },
+        {
+          text: 'Member',
+          model: this.$Member(),
+          component: 'g-input-member',
         },
       ],
       selectedItem: null,

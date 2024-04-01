@@ -3,7 +3,7 @@
     <g-navigation-drawer v-model="drawer" app fixed />
     <v-app-bar app dense fixed flat>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title>AirGuard</v-toolbar-title>
+      <v-toolbar-title>AIR</v-toolbar-title>
       <v-spacer />
     </v-app-bar>
     <v-main>

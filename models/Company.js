@@ -24,7 +24,7 @@ export { props }
 export default class Company extends FireModel {
   constructor(context, item) {
     super(context, item)
-    this.collection = 'Companys'
+    this.collection = 'Companies'
     // this.hasMany = [
     //   {
     //     collection: 'Sites',
