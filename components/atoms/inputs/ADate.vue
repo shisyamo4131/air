@@ -1,12 +1,24 @@
 <script>
 /**
+ * ### ADate
  * @author shisyamo4131
  */
-export default {}
+export default {
+  /***************************************************************************
+   * PROPS
+   ***************************************************************************/
+  props: {
+    errorMessage: {
+      type: String,
+      default: '無効な日付です。',
+      required: false,
+    },
+  },
+}
 </script>
 
 <template>
-  <air-date v-bind="$attrs" dense outlined v-on="$listeners">
+  <air-date v-bind="{ ...$props, ...$attrs }" dense outlined v-on="$listeners">
     <template
       v-for="(_, scopedSlotName) in $scopedSlots"
       #[scopedSlotName]="slotData"
