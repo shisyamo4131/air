@@ -60,6 +60,13 @@ export default class Member extends FireModel {
         },
         set(v) {},
       },
+      fullAddress: {
+        enumerable: true,
+        get() {
+          return this.pref + this.city + this.address1
+        },
+        set(v) {},
+      },
     })
   }
 

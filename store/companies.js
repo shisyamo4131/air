@@ -15,12 +15,6 @@ export const getters = {
     const result = state.items.find((item) => item.docId === docId)
     return result
   },
-  // male(state) {
-  //   return state.items.filter(({ gender }) => gender === 'male').length
-  // },
-  // female(state) {
-  //   return state.items.filter(({ gender }) => gender === 'female').length
-  // },
 }
 /******************************************************************
  * MUTATIONS

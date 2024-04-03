@@ -7,16 +7,10 @@ import GTextField from './GTextField.vue'
 import GTextarea from './GTextarea.vue'
 import ARenderlessZipcode from '~/components/atoms/renderless/ARenderlessZipcode.vue'
 import { props } from '~/models/Company'
-import EditMode from '~/components/mixins/EditMode'
+import GMixinInput from '~/components/mixins/GMixinInput'
 export default {
-  /***************************************************************************
-   * COMPONENTS
-   ***************************************************************************/
   components: { GTextField, ARenderlessZipcode, GTextarea },
-  /***************************************************************************
-   * PROPS
-   ***************************************************************************/
-  mixins: [props, EditMode],
+  mixins: [props, GMixinInput],
 }
 </script>
 

@@ -7,7 +7,8 @@
       <v-spacer />
     </v-app-bar>
     <v-main>
-      <v-container fluid :class="containerClass">
+      <!-- <v-container fluid :class="containerClass"> -->
+      <v-container fluid>
         <Nuxt keep-alive :keep-alive-props="{ include: keepAlivePages }" />
       </v-container>
     </v-main>

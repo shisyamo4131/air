@@ -9,11 +9,8 @@ import GRadioGroup from './GRadioGroup.vue'
 import GTextFieldPassword from './GTextFieldPassword.vue'
 import ARenderlessZipcode from '~/components/atoms/renderless/ARenderlessZipcode.vue'
 import { props } from '~/models/Member'
-import EditMode from '~/components/mixins/EditMode'
+import GMixinInput from '~/components/mixins/GMixinInput'
 export default {
-  /***************************************************************************
-   * COMPONENTS
-   ***************************************************************************/
   components: {
     GTextField,
     ARenderlessZipcode,
@@ -21,13 +18,7 @@ export default {
     GRadioGroup,
     GTextFieldPassword,
   },
-  /***************************************************************************
-   * PROPS
-   ***************************************************************************/
-  mixins: [props, EditMode],
-  /***************************************************************************
-   * DATA
-   ***************************************************************************/
+  mixins: [props, GMixinInput],
   data() {
     return {
       rePassword: '',

@@ -11,11 +11,7 @@ module.exports = {
   'developments-sandbox': ['developer'],
   'developments-models': ['developer'],
   companies: ['admin'],
-  'companies-regist': ['admin'],
   'companies-docId': ['admin'],
-  'companies-docId-edit': ['admin'],
   members: ['admin'],
-  'members-regist': ['admin'],
   'members-docId': ['admin'],
-  'members-docId-edit': ['admin'],
 }

@@ -1,8 +1,4 @@
 <script>
-/**
- * ## GInputMember
- * @author shisyamo4131
- */
 import GTextField from './GTextField.vue'
 import GTextarea from './GTextarea.vue'
 import GAutocompleteCompany from './GAutocompleteCompany.vue'
@@ -10,11 +6,12 @@ import GDate from './GDate.vue'
 import GRadioGroup from './GRadioGroup.vue'
 import ARenderlessZipcode from '~/components/atoms/renderless/ARenderlessZipcode.vue'
 import { props } from '~/models/Member'
-import EditMode from '~/components/mixins/EditMode'
+import GMixinInput from '~/components/mixins/GMixinInput'
+/**
+ * ### GInputMember
+ * @author shisyamo4131
+ */
 export default {
-  /***************************************************************************
-   * COMPONENTS
-   ***************************************************************************/
   components: {
     GTextField,
     ARenderlessZipcode,
@@ -23,49 +20,60 @@ export default {
     GDate,
     GRadioGroup,
   },
-  /***************************************************************************
-   * PROPS
-   ***************************************************************************/
-  mixins: [props, EditMode],
+  mixins: [props, GMixinInput],
+  props: {
+    attach: { type: undefined, default: false, required: false },
+  },
 }
 </script>
 
 <template>
   <div>
-    <g-text-field
-      :value="lastName"
-      label="姓"
-      required
-      @input="$emit('update:lastName', $event)"
-    />
-    <g-text-field
-      :value="firstName"
-      label="名"
-      required
-      @input="$emit('update:firstName', $event)"
-    />
-    <g-text-field
-      :value="lastNameKana"
-      label="セイ"
-      required
-      hint="検索に使用されます"
-      ignore-surrogate-pair
-      input-type="katakana"
-      @input="$emit('update:lastNameKana', $event)"
-    />
-    <g-text-field
-      :value="firstNameKana"
-      label="メイ"
-      required
-      hint="検索に使用されます"
-      ignore-surrogate-pair
-      input-type="katakana"
-      @input="$emit('update:firstNameKana', $event)"
-    />
+    <v-row dense>
+      <v-col cols="6">
+        <g-text-field
+          :value="lastName"
+          label="姓"
+          required
+          @input="$emit('update:lastName', $event)"
+        />
+      </v-col>
+      <v-col cols="6">
+        <g-text-field
+          :value="firstName"
+          label="名"
+          required
+          @input="$emit('update:firstName', $event)"
+        />
+      </v-col>
+      <v-col cols="6">
+        <g-text-field
+          :value="lastNameKana"
+          label="セイ"
+          required
+          hint="検索に使用されます"
+          ignore-surrogate-pair
+          input-type="katakana"
+          @input="$emit('update:lastNameKana', $event)"
+        />
+      </v-col>
+      <v-col cols="6">
+        <g-text-field
+          :value="firstNameKana"
+          label="メイ"
+          required
+          hint="検索に使用されます"
+          ignore-surrogate-pair
+          input-type="katakana"
+          @input="$emit('update:firstNameKana', $event)"
+        />
+      </v-col>
+    </v-row>
     <g-autocomplete-company
       :value="companyId"
       label="所属"
       required
+      :attach="attach"
       @input="$emit('update:companyId', $event)"
     />
     <g-date

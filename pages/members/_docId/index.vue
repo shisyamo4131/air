@@ -1,9 +1,5 @@
 <script>
-import AIconEdit from '~/components/atoms/icons/AIconEdit.vue'
-import AIconPrev from '~/components/atoms/icons/AIconPrev.vue'
-import ARenderlessCrud from '~/components/atoms/renderless/ARenderlessCrud.vue'
-import GSimpleTableMember from '~/components/molecules/tables/GSimpleTableMember.vue'
-import GTemplateDefault from '~/components/templates/GTemplateDefault.vue'
+import GCardMemberInfo from '~/components/molecules/cards/GCardMemberInfo.vue'
 /**
  * ## page.members.docId
  *
@@ -14,84 +10,22 @@ export default {
    * COMPONENTS
    ***************************************************************************/
   components: {
-    GTemplateDefault,
-    GSimpleTableMember,
-    ARenderlessCrud,
-    AIconEdit,
-    AIconPrev,
+    GCardMemberInfo,
   },
   /***************************************************************************
    * ASYNCDATA
    ***************************************************************************/
-  async asyncData({ app, route }) {
+  asyncData({ route }) {
     const docId = route.params.docId
-    const model = app.$Member()
-    await model.fetch(docId)
-    return { docId, model }
+    return { docId }
   },
-  /***************************************************************************
-   * DATA
-   ***************************************************************************/
-  data() {
-    return {
-      site: {
-        lazySearch: null,
-      },
-      tab: 0,
-    }
-  },
-  watch: {},
 }
 </script>
 
 <template>
-  <a-renderless-crud
-    :model="model"
-    edit-mode="DELETE"
-    @submit:complete="$router.replace('/members')"
-  >
-    <template #default>
-      <g-template-default label="会員情報">
-        <template #prepend-titlebar>
-          <v-btn icon @click="$router.push('/members')">
-            <a-icon-prev />
-          </v-btn>
-        </template>
-        <template #append-titlebar>
-          <v-spacer />
-          <v-btn icon @click="$router.push(`/members/${docId}/edit`)">
-            <a-icon-edit color="undefined" />
-          </v-btn>
-        </template>
-        <template #default="{ height }">
-          <v-tabs v-model="tab">
-            <v-tab>登録情報</v-tab>
-            <v-tab>現場情報</v-tab>
-          </v-tabs>
-          <v-container
-            fluid
-            class="overflow-y-auto"
-            :style="{ height: `${height - 48}px` }"
-          >
-            <v-tabs-items v-model="tab">
-              <v-tab-item>
-                <v-card outlined>
-                  <g-simple-table-member v-bind="model" />
-                </v-card>
-              </v-tab-item>
-              <v-tab-item>
-                <!-- <g-data-table-sites
-                  :height="height - 72"
-                  :items="sites"
-                  :lazy-search.sync="site.lazySearch"
-                /> -->
-              </v-tab-item>
-            </v-tabs-items>
-          </v-container>
-        </template>
-      </g-template-default>
-    </template>
-  </a-renderless-crud>
+  <div>
+    <g-card-member-info :doc-id="docId" />
+  </div>
 </template>
 
 <style></style>

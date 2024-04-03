@@ -1,23 +1,18 @@
 <template>
-  <g-template-default>
-    <v-card>
-      <v-card-title>sandbox</v-card-title>
-      <v-card-text>
-        <g-date v-model="value" label="date" />
-      </v-card-text>
-    </v-card>
-  </g-template-default>
+  <g-card-company-info v-bind="model" />
 </template>
 
 <script>
-import GDate from '~/components/molecules/inputs/GDate.vue'
-import GTemplateDefault from '~/components/templates/GTemplateDefault.vue'
+import GCardCompanyInfo from '~/components/molecules/cards/GCardCompanyInfo.vue'
 export default {
-  components: { GTemplateDefault, GDate },
+  components: { GCardCompanyInfo },
   data() {
     return {
-      value: null,
+      model: this.$Company(),
     }
+  },
+  mounted() {
+    this.model.fetch('ljlmvPkLNscHUnbkb566')
   },
 }
 </script>

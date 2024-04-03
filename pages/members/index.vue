@@ -1,42 +1,43 @@
 <script>
-import { limit, where } from 'firebase/firestore'
 import AIconRegist from '~/components/atoms/icons/AIconRegist.vue'
-import GDataTableMembers from '~/components/molecules/tables/GDataTableMembers.vue'
-import GTemplateDefault from '~/components/templates/GTemplateDefault.vue'
+import GDialogEditor from '~/components/molecules/dialogs/GDialogEditor.vue'
+import GInputMember from '~/components/molecules/inputs/GInputMember.vue'
+import GTextFieldSearch from '~/components/molecules/inputs/GTextFieldSearch.vue'
 /**
- * ### pages.members.index
+ * ### pages.companies.index
  * @author shisyamo4131
  */
 export default {
   /***************************************************************************
    * COMPONENTS
    ***************************************************************************/
-  components: { GTemplateDefault, GDataTableMembers, AIconRegist },
+  components: { GTextFieldSearch, GInputMember, AIconRegist, GDialogEditor },
   /***************************************************************************
    * DATA
    ***************************************************************************/
   data() {
     return {
-      defaultConstraints: [where('status', '==', 'active'), limit(10)],
+      dialog: false,
+      editModel: this.$Member(),
       items: [],
-      lazySearch: undefined,
+      loading: false,
       model: this.$Member(),
+      search: null,
     }
   },
   /***************************************************************************
    * WATCH
    ***************************************************************************/
   watch: {
-    lazySearch: {
-      handler(v) {
-        if (v) {
-          this.items = this.model.subscribe(v)
-        } else {
-          this.items = this.model.subscribe(undefined, this.defaultConstraints)
-        }
-      },
-      immediate: true,
+    dialog(v) {
+      !v || this.editModel.initialize(this.model)
     },
+  },
+  /***************************************************************************
+   * MOUNTED
+   ***************************************************************************/
+  mounted() {
+    this.items = this.model.subscribe()
   },
   /***************************************************************************
    * DESTROYED
@@ -44,26 +45,87 @@ export default {
   destroyed() {
     this.model.unsubscribe()
   },
+  /***************************************************************************
+   * METHODS
+   ***************************************************************************/
+  methods: {
+    async submit() {
+      try {
+        this.loading = true
+        await this.editModel.create()
+        this.dialog = false
+      } catch (err) {
+        // eslint-disable-next-line
+        console.error(err)
+        alert(err.message)
+      } finally {
+        this.loading = false
+      }
+    },
+  },
 }
 </script>
 
 <template>
-  <g-template-default label="会員管理">
-    <template #append-titlebar>
-      <v-btn icon
-        ><a-icon-regist @click="$router.push('/members/regist')"
-      /></v-btn>
+  <v-data-iterator
+    :items="items"
+    :items-per-page="-1"
+    hide-default-footer
+    :search="search"
+  >
+    <template #header>
+      <v-toolbar flat>
+        <g-text-field-search v-model="search" />
+        <v-spacer />
+        <g-dialog-editor
+          v-model="dialog"
+          label="会員登録"
+          :loading="loading"
+          @click:submit="submit"
+        >
+          <template #activator="{ attrs, on }">
+            <v-btn icon v-bind="attrs" v-on="on">
+              <a-icon-regist />
+            </v-btn>
+          </template>
+          <template #form>
+            <g-input-member v-bind.sync="editModel" attach />
+          </template>
+        </g-dialog-editor>
+      </v-toolbar>
     </template>
-    <template #default="{ height }">
-      <g-data-table-members
-        :height="height"
-        :items="items"
-        :lazy-search.sync="lazySearch"
-        show-actions
-        @click:detail="$router.push(`members/${$event.docId}`)"
-      />
+    <template #default="props">
+      <v-container fluid>
+        <v-row>
+          <v-col
+            v-for="(item, index) of props.items"
+            :key="index"
+            cols="12"
+            sm="6"
+            md="4"
+            lg="3"
+          >
+            <v-card>
+              <v-card-title class="justify-space-between">
+                <span>{{ item.fullName }}</span>
+                <v-chip small>
+                  {{
+                    $store.getters['companies/get'](item.companyId)?.abbr || ''
+                  }}
+                </v-chip>
+              </v-card-title>
+              <v-card-subtitle>{{ item.fullNameKana }}</v-card-subtitle>
+              <v-card-actions class="justify-space-around">
+                <v-icon @click="$router.push(`/members/${item.docId}`)"
+                  >mdi-eye</v-icon
+                >
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
     </template>
-  </g-template-default>
+  </v-data-iterator>
 </template>
 
 <style></style>
