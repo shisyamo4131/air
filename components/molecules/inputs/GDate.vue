@@ -47,7 +47,12 @@ export default {
    ***************************************************************************/
   watch: {
     menu(val) {
-      val && setTimeout(() => (this.activePicker = 'YEAR'))
+      // ディレイをある程度指定しないと年のスクロールが行われない。
+      // たぶん原因は日付データのバケツリレー。
+      val &&
+        setTimeout(() => {
+          this.activePicker = 'YEAR'
+        }, 100)
     },
   },
   /***************************************************************************
@@ -97,6 +102,7 @@ export default {
           v-bind="pickerProps"
           locale="ja-jp"
           :active-picker.sync="activePicker"
+          :picker-date="date"
           @change="save"
         ></v-date-picker>
       </v-menu>

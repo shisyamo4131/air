@@ -146,6 +146,7 @@ export default {
       counter
       max-length="10"
       hint="ハイフン不要"
+      inputmode="numeric"
       @input="$emit('update:basicPensionNumber', $event)"
     />
     <g-text-field
@@ -154,6 +155,7 @@ export default {
       counter
       max-length="12"
       hint="ハイフン不要"
+      inputmode="numeric"
       @input="$emit('update:myNumber', $event)"
     />
     <g-textarea
