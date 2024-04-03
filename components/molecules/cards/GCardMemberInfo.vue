@@ -69,7 +69,10 @@ export default {
 <template>
   <v-card>
     <v-card-title class="justify-space-between">
-      {{ model.fullName }}
+      <span>
+        {{ model.fullName }}
+        <v-icon small>mdi-gender-{{ model.gender }}</v-icon>
+      </span>
       <g-dialog-editor
         v-model="dialog"
         label="会員情報更新"

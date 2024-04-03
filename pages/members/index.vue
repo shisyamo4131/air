@@ -107,7 +107,10 @@ export default {
           >
             <v-card>
               <v-card-title class="justify-space-between">
-                <span>{{ item.fullName }}</span>
+                <span>
+                  {{ item.fullName }}
+                  <v-icon small>mdi-gender-{{ item.gender }}</v-icon>
+                </span>
                 <v-chip small>
                   {{
                     $store.getters['companies/get'](item.companyId)?.abbr || ''
