@@ -1,9 +1,9 @@
 <script>
 import GTextField from './GTextField.vue'
 import GTextarea from './GTextarea.vue'
-import GAutocompleteCompany from './GAutocompleteCompany.vue'
 import GDate from './GDate.vue'
 import GRadioGroup from './GRadioGroup.vue'
+import GSelect from './GSelect.vue'
 import ARenderlessZipcode from '~/components/atoms/renderless/ARenderlessZipcode.vue'
 import { props } from '~/models/Member'
 import GMixinInput from '~/components/mixins/GMixinInput'
@@ -16,9 +16,9 @@ export default {
     GTextField,
     ARenderlessZipcode,
     GTextarea,
-    GAutocompleteCompany,
     GDate,
     GRadioGroup,
+    GSelect,
   },
   mixins: [props, GMixinInput],
   props: {
@@ -69,10 +69,13 @@ export default {
         />
       </v-col>
     </v-row>
-    <g-autocomplete-company
+    <g-select
       :value="companyId"
       label="所属"
       required
+      :items="$store.state.companies.items"
+      item-text="name"
+      item-value="docId"
       :attach="attach"
       @input="$emit('update:companyId', $event)"
     />
@@ -136,6 +139,22 @@ export default {
       required
       input-type="email"
       @input="$emit('update:email', $event)"
+    />
+    <g-text-field
+      :value="basicPensionNumber"
+      label="基礎年金番号"
+      counter
+      max-length="10"
+      hint="ハイフン不要"
+      @input="$emit('update:basicPensionNumber', $event)"
+    />
+    <g-text-field
+      :value="myNumber"
+      label="マイナンバー"
+      counter
+      max-length="12"
+      hint="ハイフン不要"
+      @input="$emit('update:myNumber', $event)"
     />
     <g-textarea
       :value="remarks"

@@ -37,6 +37,7 @@ export default {
     './plugins/firebase.auth.js',
     './plugins/models.js',
     './plugins/constants.js',
+    './plugins/dayjs.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

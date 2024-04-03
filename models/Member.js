@@ -6,8 +6,6 @@ const props = {
     firstName: { type: String, default: '', required: false },
     lastNameKana: { type: String, default: '', required: false },
     firstNameKana: { type: String, default: '', required: false },
-    companyId: { type: String, default: '', required: false },
-    registrationDate: { type: String, default: '', required: false },
     birth: { type: String, default: '', required: false },
     gender: { type: String, default: 'male', required: false },
     zipcode: { type: String, default: '', required: false },
@@ -19,6 +17,10 @@ const props = {
     tel: { type: String, default: '', required: false },
     email: { type: String, default: '', required: false },
     password: { type: String, default: '', required: false },
+    companyId: { type: String, default: '', required: false },
+    registrationDate: { type: String, default: '', required: false },
+    basicPensionNumber: { type: String, default: '', required: false },
+    myNumber: { type: String, default: '', required: false },
     status: { type: String, default: 'active', required: false },
     remarks: { type: String, default: '', required: false },
   },
@@ -64,6 +66,20 @@ export default class Member extends FireModel {
         enumerable: true,
         get() {
           return this.pref + this.city + this.address1
+        },
+        set(v) {},
+      },
+      deadline: {
+        enumerable: true,
+        get() {
+          if (!this.birth) return ''
+          const result = context.app
+            .$dayjs(this.birth)
+            .add(70, 'year')
+            .subtract(1, 'month')
+            .endOf('month')
+            .format('YYYY-MM-DD')
+          return result
         },
         set(v) {},
       },

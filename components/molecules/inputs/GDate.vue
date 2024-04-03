@@ -35,7 +35,7 @@ export default {
   computed: {
     date: {
       get() {
-        return this.$attrs.value
+        return this.$attrs.value || null
       },
       set(v) {
         this.$emit('input', v)

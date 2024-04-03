@@ -118,7 +118,7 @@ export default {
                 </v-chip>
               </v-card-title>
               <v-card-subtitle>{{ item.fullNameKana }}</v-card-subtitle>
-              <v-card-actions class="justify-space-around">
+              <v-card-actions class="justify-end">
                 <v-icon @click="$router.push(`/members/${item.docId}`)"
                   >mdi-eye</v-icon
                 >

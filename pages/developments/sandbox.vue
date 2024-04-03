@@ -1,18 +1,17 @@
 <template>
-  <g-card-company-info v-bind="model" />
+  <div>
+    <g-date v-model="value" />
+  </div>
 </template>
 
 <script>
-import GCardCompanyInfo from '~/components/molecules/cards/GCardCompanyInfo.vue'
+import GDate from '~/components/molecules/inputs/GDate.vue'
 export default {
-  components: { GCardCompanyInfo },
+  components: { GDate },
   data() {
     return {
-      model: this.$Company(),
+      value: '',
     }
-  },
-  mounted() {
-    this.model.fetch('ljlmvPkLNscHUnbkb566')
   },
 }
 </script>
