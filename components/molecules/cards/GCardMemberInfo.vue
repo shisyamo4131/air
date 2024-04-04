@@ -1,9 +1,9 @@
 <script>
 import { doc, onSnapshot } from 'firebase/firestore'
 import GInputMember from '../inputs/GInputMember.vue'
-import GBtnEdit from '../btns/GBtnEdit.vue'
-import GBtnDelete from '../btns/GBtnDelete.vue'
 import GDialogEditor from '~/components/molecules/dialogs/GDialogEditor.vue'
+import AIconEdit from '~/components/atoms/icons/AIconEdit.vue'
+import AIconDelete from '~/components/atoms/icons/AIconDelete.vue'
 /**
  * ### GCardMemberInfo
  * @author shisyamo4131
@@ -12,8 +12,8 @@ export default {
   components: {
     GInputMember,
     GDialogEditor,
-    GBtnEdit,
-    GBtnDelete,
+    AIconEdit,
+    AIconDelete,
   },
   props: {
     docId: { type: String, required: true },
@@ -189,28 +189,26 @@ export default {
     <v-card-text v-if="model.remarks">
       {{ model.remarks }}
     </v-card-text>
-    <v-card-actions>
-      <v-row>
-        <v-col cols="6">
-          <g-dialog-editor
-            v-model="dialog"
-            label="会員情報更新"
-            :loading="loading"
-            max-width="600"
-            @click:submit="submit"
-          >
-            <template #activator="{ attrs, on }">
-              <g-btn-edit v-bind="attrs" block v-on="on" />
-            </template>
-            <template #form>
-              <g-input-member v-bind.sync="editModel" />
-            </template>
-          </g-dialog-editor>
-        </v-col>
-        <v-col cols="6">
-          <g-btn-delete block @click="remove" />
-        </v-col>
-      </v-row>
+    <v-card-actions class="justify-space-around">
+      <g-dialog-editor
+        v-model="dialog"
+        label="会員情報更新"
+        :loading="loading"
+        max-width="600"
+        @click:submit="submit"
+      >
+        <template #activator="{ attrs, on }">
+          <v-btn v-bind="attrs" icon v-on="on">
+            <a-icon-edit />
+          </v-btn>
+        </template>
+        <template #form>
+          <g-input-member v-bind.sync="editModel" />
+        </template>
+      </g-dialog-editor>
+      <v-btn icon @click="remove">
+        <a-icon-delete />
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>

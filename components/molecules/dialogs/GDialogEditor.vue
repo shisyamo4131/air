@@ -1,7 +1,6 @@
 <script>
-import GBtnSubmit from '../btns/GBtnSubmit.vue'
-import GBtnCancel from '../btns/GBtnCancel.vue'
 import AIconClose from '~/components/atoms/icons/AIconClose.vue'
+import AIconSubmit from '~/components/atoms/icons/AIconSubmit.vue'
 /**
  * ### GDialogEditor
  * データ編集用のv-cardコンポーネントを内包したdialogコンポーネントです。
@@ -11,7 +10,7 @@ export default {
   /***************************************************************************
    * COMPONENTS
    ***************************************************************************/
-  components: { AIconClose, GBtnSubmit, GBtnCancel },
+  components: { AIconClose, AIconSubmit },
   /***************************************************************************
    * PROPS
    ***************************************************************************/
@@ -63,16 +62,19 @@ export default {
     <v-card>
       <v-card-title class="justify-space-between">
         <span>{{ label }}</span>
-        <a-icon-close :disabled="loading" @click="$emit('input', false)" />
       </v-card-title>
-      <v-card-text :id="`scroll-container-${_uid}`">
+      <v-card-text :id="`scroll-container-${_uid}`" class="py-5 px-6">
         <v-form ref="form" :disabled="loading">
           <slot name="form" />
         </v-form>
       </v-card-text>
-      <v-card-actions class="justify-space-around">
-        <g-btn-cancel :disabled="loading" @click="$emit('input', false)" />
-        <g-btn-submit :disabled="loading" :loading="loading" @click="submit" />
+      <v-card-actions class="justify-space-between">
+        <v-btn icon :disabled="loading" @click="$emit('input', false)">
+          <a-icon-close />
+        </v-btn>
+        <v-btn icon :disabled="loading" :loading="loading" @click="submit">
+          <a-icon-submit />
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

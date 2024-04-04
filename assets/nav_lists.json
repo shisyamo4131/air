@@ -26,6 +26,7 @@
     "icon": "mdi-wrench-cog",
     "lists": [
       { "name": "モデル", "to": "/developments/models" },
+      { "name": "Components", "to": "/developments/components" },
       { "name": "コンポーネントテスト", "to": "/developments/sandbox" }
     ]
   }

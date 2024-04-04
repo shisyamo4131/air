@@ -146,22 +146,27 @@ export default {
     <!-- ### ACTIONS COLUMN ### -->
     <template #[`item.actions`]="props">
       <slot name="item.actions" v-bind="props">
-        <a-icon-edit
+        <v-btn
           v-if="actions.includes('edit')"
-          color="blue"
+          icon
           @click="$emit('click:edit', props.item)"
-        />
-        <a-icon-delete
+        >
+          <a-icon-edit />
+        </v-btn>
+        <v-btn
           v-if="actions.includes('delete')"
-          class="ml-2"
-          color="red"
+          icon
           @click="$emit('click:delete', props.item)"
-        />
-        <a-icon-detail
+        >
+          <a-icon-delete />
+        </v-btn>
+        <v-btn
           v-if="actions.includes('detail')"
-          class="ml-2"
+          icon
           @click="$emit('click:detail', props.item)"
-        />
+        >
+          <a-icon-detail />
+        </v-btn>
       </slot>
     </template>
     <!-- ### FOOTER ### -->

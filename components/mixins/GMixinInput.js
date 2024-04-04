@@ -18,7 +18,7 @@
  */
 export default {
   props: {
-    attach: { type: undefined, default: false, required: false },
+    attach: { type: undefined, default: true, required: false },
     editMode: {
       type: String,
       default: 'REGIST',

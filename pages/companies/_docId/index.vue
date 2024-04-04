@@ -1,5 +1,5 @@
 <script>
-import GCardCompanyInfo from '~/components/molecules/cards/GCardCompanyInfo.vue'
+import GCardCompanyInfo from '~/components/organisms/GCardCompanyInfo.vue'
 /**
  * ## page.companies.docId
  *

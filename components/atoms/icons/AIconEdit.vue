@@ -1,16 +1,12 @@
 <script>
 /**
  * ## AIconEdit
- * An icon for 'edit'.
- * All props of VIcon are available.
- * Default color is blue.
- *
  * @author shisyamo4131
  * @create 2024-03-18
  */
 export default {
   props: {
-    color: { type: String, default: 'blue', required: false },
+    color: { type: String, default: 'green', required: false },
   },
 }
 </script>

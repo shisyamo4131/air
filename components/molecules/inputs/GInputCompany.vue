@@ -11,6 +11,13 @@ import GMixinInput from '~/components/mixins/GMixinInput'
 export default {
   components: { GTextField, ARenderlessZipcode, GTextarea },
   mixins: [props, GMixinInput],
+  methods: {
+    loaded(e) {
+      this.$emit('update:pref', e.pref)
+      this.$emit('update:city', e.city)
+      this.$emit('update:address1', e.addr)
+    },
+  },
 }
 </script>
 
@@ -42,12 +49,24 @@ export default {
     <a-renderless-zipcode
       :value="zipcode"
       @input="$emit('update:zipcode', $event)"
-      @loaded="$emit('update:address1', $event.full)"
+      @loaded="loaded"
     >
       <template #default="{ attrs, on }">
         <g-text-field v-bind="attrs" label="郵便番号" v-on="on" />
       </template>
     </a-renderless-zipcode>
+    <g-text-field
+      :value="pref"
+      label="都道府県"
+      required
+      @input="$emit('update:pref', $event)"
+    />
+    <g-text-field
+      :value="city"
+      label="市区町村"
+      required
+      @input="$emit('update:city', $event)"
+    />
     <g-text-field
       :value="address1"
       label="住所"
@@ -77,6 +96,21 @@ export default {
         />
       </v-col>
     </v-row>
+    <g-text-field
+      :value="companyNumber"
+      label="法人番号"
+      counter
+      maxlength="13"
+      @input="$emit('update:companyNumber', $event)"
+    />
+    <g-text-field
+      :value="invoiceNumber"
+      label="インボイス番号"
+      counter
+      maxlength="13"
+      prefix="T"
+      @input="$emit('update:invoiceNumber', $event)"
+    />
     <g-textarea
       :value="remarks"
       label="備考"

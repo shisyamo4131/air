@@ -7,6 +7,7 @@
 import ASelect from '~/components/atoms/inputs/ASelect.vue'
 import GInputCompany from '~/components/molecules/inputs/GInputCompany.vue'
 import GInputMember from '~/components/molecules/inputs/GInputMember.vue'
+import GInputDependent from '~/components/molecules/inputs/GInputDependent.vue'
 import GTemplateDefault from '~/components/templates/GTemplateDefault.vue'
 export default {
   /***************************************************************************
@@ -17,6 +18,7 @@ export default {
     ASelect,
     GInputCompany,
     GInputMember,
+    GInputDependent,
   },
   /***************************************************************************
    * DATA
@@ -33,6 +35,11 @@ export default {
           text: 'Member',
           model: this.$Member(),
           component: 'g-input-member',
+        },
+        {
+          text: 'Dependent',
+          model: this.$Dependent(),
+          component: 'g-input-dependent',
         },
       ],
       selectedItem: null,
