@@ -2,8 +2,8 @@
 import GTextFieldSearch from '../inputs/GTextFieldSearch.vue'
 import AIconDelete from '~/components/atoms/icons/AIconDelete.vue'
 import AIconEdit from '~/components/atoms/icons/AIconEdit.vue'
-import AIconNext from '~/components/atoms/icons/AIconNext.vue'
 import ADataTable from '~/components/atoms/tables/ADataTable.vue'
+import AIconDetail from '~/components/atoms/icons/AIconDetail.vue'
 /**
  * ## GDataTable
  *
@@ -15,21 +15,16 @@ export default {
    ***************************************************************************/
   components: {
     ADataTable,
-    AIconNext,
     AIconDelete,
     AIconEdit,
     GTextFieldSearch,
+    AIconDetail,
   },
   /***************************************************************************
    * PROPS
    ***************************************************************************/
   props: {
-    actionType: {
-      type: String,
-      default: 'show-detail',
-      validator: (v) => ['edit-delete', 'show-detail'].includes(v),
-      required: false,
-    },
+    actions: { type: Array, default: () => [], required: false },
     headers: { type: Array, default: () => [], required: false },
     height: { type: [Number, String], default: undefined, required: false },
     hidePagination: { type: Boolean, default: false, required: false },
@@ -149,21 +144,24 @@ export default {
       </v-toolbar>
     </template>
     <!-- ### ACTIONS COLUMN ### -->
-    <!-- Show 'edit' and 'delete' buttons if 'actionType' prop is 'edit-delete'. -->
-    <!-- Show 'next' button if 'actionType' prop is 'show-detail'. -->
-    <!-- Actions column setting is included by computed. -->
     <template #[`item.actions`]="props">
       <slot name="item.actions" v-bind="props">
-        <div v-if="actionType === 'edit-delete'">
-          <a-icon-edit @click="$emit('click:edit', props.item)" />
-          <a-icon-delete
-            class="ml-2"
-            @click="$emit('click:delete', props.item)"
-          />
-        </div>
-        <div v-if="actionType === 'show-detail'">
-          <a-icon-next @click="$emit('click:detail', props.item)" />
-        </div>
+        <a-icon-edit
+          v-if="actions.includes('edit')"
+          color="blue"
+          @click="$emit('click:edit', props.item)"
+        />
+        <a-icon-delete
+          v-if="actions.includes('delete')"
+          class="ml-2"
+          color="red"
+          @click="$emit('click:delete', props.item)"
+        />
+        <a-icon-detail
+          v-if="actions.includes('detail')"
+          class="ml-2"
+          @click="$emit('click:detail', props.item)"
+        />
       </slot>
     </template>
     <!-- ### FOOTER ### -->

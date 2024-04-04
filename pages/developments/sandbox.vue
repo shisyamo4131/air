@@ -1,13 +1,13 @@
 <template>
   <div>
-    <g-date v-model="value" />
+    <g-btn-submit />
   </div>
 </template>
 
 <script>
-import GDate from '~/components/molecules/inputs/GDate.vue'
+import GBtnSubmit from '~/components/molecules/btns/GBtnSubmit.vue'
 export default {
-  components: { GDate },
+  components: { GBtnSubmit },
   data() {
     return {
       value: '',

@@ -1,14 +1,20 @@
 <script>
 import { doc, onSnapshot } from 'firebase/firestore'
 import GInputMember from '../inputs/GInputMember.vue'
+import GBtnEdit from '../btns/GBtnEdit.vue'
+import GBtnDelete from '../btns/GBtnDelete.vue'
 import GDialogEditor from '~/components/molecules/dialogs/GDialogEditor.vue'
-import AIconEdit from '~/components/atoms/icons/AIconEdit.vue'
 /**
  * ### GCardMemberInfo
  * @author shisyamo4131
  */
 export default {
-  components: { AIconEdit, GInputMember, GDialogEditor },
+  components: {
+    GInputMember,
+    GDialogEditor,
+    GBtnEdit,
+    GBtnDelete,
+  },
   props: {
     docId: { type: String, required: true },
   },
@@ -68,6 +74,12 @@ export default {
         this.loading = false
       }
     },
+    async remove() {
+      const result = window.confirm('本当に削除しますか？')
+      if (!result) return
+      await this.model.delete()
+      this.$router.replace('/members')
+    },
   },
 }
 </script>
@@ -79,23 +91,24 @@ export default {
         {{ model.fullName }}
         <v-icon small>mdi-gender-{{ model.gender }}</v-icon>
       </span>
-      <g-dialog-editor
-        v-model="dialog"
-        label="会員情報更新"
-        :loading="loading"
-        @click:submit="submit"
-      >
-        <template #activator="{ attrs, on }">
-          <v-btn icon v-bind="attrs" v-on="on">
-            <a-icon-edit v-bind="attrs" v-on="on" />
-          </v-btn>
-        </template>
-        <template #form>
-          <g-input-member v-bind.sync="editModel" />
-        </template>
-      </g-dialog-editor>
     </v-card-title>
     <v-card-subtitle>{{ model.fullNameKana }}</v-card-subtitle>
+    <v-list>
+      <v-list-item two-line>
+        <v-list-item-content>
+          <v-list-item-title>
+            {{ company.name }}
+          </v-list-item-title>
+          <v-list-item-subtitle>
+            {{
+              model.registrationDate
+                ? $dayjs(model.registrationDate).format('YYYY年MM月DD日 登録')
+                : ''
+            }}
+          </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
     <v-tabs v-model="tab">
       <v-tab>基本情報</v-tab>
       <v-tab>社会保障</v-tab>
@@ -150,23 +163,6 @@ export default {
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item two-line>
-            <v-list-item-content>
-              <v-list-item-subtitle>所属</v-list-item-subtitle>
-              <v-list-item-title>
-                {{ company.name }}
-              </v-list-item-title>
-              <v-list-item-subtitle>
-                {{
-                  model.registrationDate
-                    ? $dayjs(model.registrationDate).format(
-                        'YYYY年MM月DD日 登録'
-                      )
-                    : ''
-                }}
-              </v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
         </v-list>
       </v-tab-item>
       <v-tab-item>
@@ -193,6 +189,29 @@ export default {
     <v-card-text v-if="model.remarks">
       {{ model.remarks }}
     </v-card-text>
+    <v-card-actions>
+      <v-row>
+        <v-col cols="6">
+          <g-dialog-editor
+            v-model="dialog"
+            label="会員情報更新"
+            :loading="loading"
+            max-width="600"
+            @click:submit="submit"
+          >
+            <template #activator="{ attrs, on }">
+              <g-btn-edit v-bind="attrs" block v-on="on" />
+            </template>
+            <template #form>
+              <g-input-member v-bind.sync="editModel" />
+            </template>
+          </g-dialog-editor>
+        </v-col>
+        <v-col cols="6">
+          <g-btn-delete block @click="remove" />
+        </v-col>
+      </v-row>
+    </v-card-actions>
   </v-card>
 </template>
 

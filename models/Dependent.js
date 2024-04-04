@@ -6,23 +6,18 @@ const props = {
     firstName: { type: String, default: '', required: false },
     lastNameKana: { type: String, default: '', required: false },
     firstNameKana: { type: String, default: '', required: false },
+    relation: { type: String, default: '', required: false },
     birth: { type: String, default: '', required: false },
     gender: { type: String, default: 'male', required: false },
+    isTogether: { type: Boolean, default: true, required: false },
     zipcode: { type: String, default: '', required: false },
     pref: { type: String, default: '', required: false },
     city: { type: String, default: '', required: false },
     address1: { type: String, default: '', required: false },
     address2: { type: String, default: '', required: false },
-    mobile: { type: String, default: '', required: false },
-    tel: { type: String, default: '', required: false },
-    email: { type: String, default: '', required: false },
-    password: { type: String, default: '', required: false },
-    companyId: { type: String, default: '', required: false },
-    registrationDate: { type: String, default: '', required: false },
+    registrationDate: { type: String, default: '', required: false }, // 社保加入日
     basicPensionNumber: { type: String, default: '', required: false },
     myNumber: { type: String, default: '', required: false },
-    hasReferee: { type: Boolean, default: false, required: false },
-    referee: { type: String, default: '', required: false },
     status: { type: String, default: 'active', required: false },
     remarks: { type: String, default: '', required: false },
   },
@@ -30,22 +25,14 @@ const props = {
 export { props }
 
 /**
- * ## Member
+ * ## Dependent
  *
  * @author shisyamo4131
  */
-export default class Member extends FireModel {
-  constructor(context, item) {
+export default class Dependent extends FireModel {
+  constructor(context, memberId, item) {
     super(context, item)
-    this.collection = `Members`
-    // this.hasMany = [
-    //   {
-    //     collection: 'Sites',
-    //     field: 'MemberId',
-    //     condition: '==',
-    //     type: 'collection',
-    //   },
-    // ]
+    this.collection = `Members/${memberId}/Dependents`
     this.tokenFields = ['fullNameKana']
     Object.defineProperties(this, {
       fullName: {

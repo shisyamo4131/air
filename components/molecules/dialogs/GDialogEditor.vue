@@ -1,4 +1,6 @@
 <script>
+import GBtnSubmit from '../btns/GBtnSubmit.vue'
+import GBtnCancel from '../btns/GBtnCancel.vue'
 import AIconClose from '~/components/atoms/icons/AIconClose.vue'
 /**
  * ### GDialogEditor
@@ -9,7 +11,7 @@ export default {
   /***************************************************************************
    * COMPONENTS
    ***************************************************************************/
-  components: { AIconClose },
+  components: { AIconClose, GBtnSubmit, GBtnCancel },
   /***************************************************************************
    * PROPS
    ***************************************************************************/
@@ -68,14 +70,9 @@ export default {
           <slot name="form" />
         </v-form>
       </v-card-text>
-      <v-card-actions class="justify-center">
-        <v-btn
-          color="primary"
-          :disabled="loading"
-          :loading="loading"
-          @click="submit"
-          >submit</v-btn
-        >
+      <v-card-actions class="justify-space-around">
+        <g-btn-cancel :disabled="loading" @click="$emit('input', false)" />
+        <g-btn-submit :disabled="loading" :loading="loading" @click="submit" />
       </v-card-actions>
     </v-card>
   </v-dialog>

@@ -1,4 +1,5 @@
 <script>
+import AIconDetail from '~/components/atoms/icons/AIconDetail.vue'
 import AIconRegist from '~/components/atoms/icons/AIconRegist.vue'
 import GDialogEditor from '~/components/molecules/dialogs/GDialogEditor.vue'
 import GInputMember from '~/components/molecules/inputs/GInputMember.vue'
@@ -11,7 +12,13 @@ export default {
   /***************************************************************************
    * COMPONENTS
    ***************************************************************************/
-  components: { GTextFieldSearch, GInputMember, AIconRegist, GDialogEditor },
+  components: {
+    GTextFieldSearch,
+    GInputMember,
+    AIconRegist,
+    GDialogEditor,
+    AIconDetail,
+  },
   /***************************************************************************
    * DATA
    ***************************************************************************/
@@ -119,9 +126,9 @@ export default {
               </v-card-title>
               <v-card-subtitle>{{ item.fullNameKana }}</v-card-subtitle>
               <v-card-actions class="justify-end">
-                <v-icon @click="$router.push(`/members/${item.docId}`)"
-                  >mdi-eye</v-icon
-                >
+                <a-icon-detail
+                  @click="$router.push(`/members/${item.docId}`)"
+                />
               </v-card-actions>
             </v-card>
           </v-col>

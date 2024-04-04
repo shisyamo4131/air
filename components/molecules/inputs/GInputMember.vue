@@ -4,6 +4,7 @@ import GTextarea from './GTextarea.vue'
 import GDate from './GDate.vue'
 import GRadioGroup from './GRadioGroup.vue'
 import GSelect from './GSelect.vue'
+import GSwitch from './GSwitch.vue'
 import ARenderlessZipcode from '~/components/atoms/renderless/ARenderlessZipcode.vue'
 import { props } from '~/models/Member'
 import GMixinInput from '~/components/mixins/GMixinInput'
@@ -19,6 +20,7 @@ export default {
     GDate,
     GRadioGroup,
     GSelect,
+    GSwitch,
   },
   mixins: [props, GMixinInput],
   props: {
@@ -146,7 +148,6 @@ export default {
       counter
       max-length="10"
       hint="ハイフン不要"
-      inputmode="numeric"
       @input="$emit('update:basicPensionNumber', $event)"
     />
     <g-text-field
@@ -155,9 +156,23 @@ export default {
       counter
       max-length="12"
       hint="ハイフン不要"
-      inputmode="numeric"
       @input="$emit('update:myNumber', $event)"
     />
+    <g-switch
+      :input-value="hasReferee"
+      label="紹介者"
+      @change="$emit('update:hasReferee', $event)"
+    />
+    <v-expand-transition>
+      <div v-show="hasReferee">
+        <g-text-field
+          :value="referee"
+          label="紹介者名"
+          :required="hasReferee"
+          @input="$emit('update:referee', $event)"
+        />
+      </div>
+    </v-expand-transition>
     <g-textarea
       :value="remarks"
       label="備考"
