@@ -39,6 +39,12 @@ export default {
     :mobile-breakpoint="0"
     v-on="$listeners"
   >
+    <template #[`item.fullName`]="{ item }">
+      {{ item.fullName
+      }}<v-chip v-if="item.isSpouse" class="ml-2" x-small color="secondary"
+        >配偶者</v-chip
+      >
+    </template>
     <template #[`item.relation`]="{ item }">
       {{ $DEPENDENT_RELATION[item.relation] }}
     </template>

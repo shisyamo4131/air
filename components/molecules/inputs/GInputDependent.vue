@@ -5,6 +5,8 @@ import GDate from './GDate.vue'
 import GRadioGroup from './GRadioGroup.vue'
 import GSelect from './GSelect.vue'
 import GSwitch from './GSwitch.vue'
+import GTextFieldBasicPensionNumber from './GTextFieldBasicPensionNumber.vue'
+import GTextFieldMyNumber from './GTextFieldMyNumber.vue'
 import ARenderlessZipcode from '~/components/atoms/renderless/ARenderlessZipcode.vue'
 import { props } from '~/models/Dependent'
 import GMixinInput from '~/components/mixins/GMixinInput'
@@ -13,6 +15,9 @@ import GMixinInput from '~/components/mixins/GMixinInput'
  * @author shisyamo4131
  */
 export default {
+  /***************************************************************************
+   * COMPONENTS
+   ***************************************************************************/
   components: {
     GTextField,
     ARenderlessZipcode,
@@ -21,7 +26,12 @@ export default {
     GRadioGroup,
     GSelect,
     GSwitch,
+    GTextFieldBasicPensionNumber,
+    GTextFieldMyNumber,
   },
+  /***************************************************************************
+   * MIXINS
+   ***************************************************************************/
   mixins: [props, GMixinInput],
 }
 </script>
@@ -29,7 +39,7 @@ export default {
 <template>
   <div>
     <v-row dense>
-      <v-col cols="6">
+      <v-col cols="12" sm="6">
         <g-text-field
           :value="lastName"
           label="姓"
@@ -37,7 +47,7 @@ export default {
           @input="$emit('update:lastName', $event)"
         />
       </v-col>
-      <v-col cols="6">
+      <v-col cols="12" sm="6">
         <g-text-field
           :value="firstName"
           label="名"
@@ -45,7 +55,7 @@ export default {
           @input="$emit('update:firstName', $event)"
         />
       </v-col>
-      <v-col cols="6">
+      <v-col cols="12" sm="6">
         <g-text-field
           :value="lastNameKana"
           label="セイ"
@@ -56,7 +66,7 @@ export default {
           @input="$emit('update:lastNameKana', $event)"
         />
       </v-col>
-      <v-col cols="6">
+      <v-col cols="12" sm="6">
         <g-text-field
           :value="firstNameKana"
           label="メイ"
@@ -68,14 +78,23 @@ export default {
         />
       </v-col>
     </v-row>
-    <g-select
-      :value="relation"
-      label="続柄"
-      required
-      :items="$DEPENDENT_RELATION_ARRAY"
-      :attach="attach"
-      @input="$emit('update:relation', $event)"
+    <g-switch
+      :input-value="isSpouse"
+      label="配偶者"
+      @change="$emit('update:isSpouse', $event)"
     />
+    <v-expand-transition>
+      <div v-show="!isSpouse">
+        <g-select
+          :value="relation"
+          label="続柄"
+          :required="!isSpouse"
+          :items="$DEPENDENT_RELATION_ARRAY"
+          :attach="attach"
+          @input="$emit('update:relation', $event)"
+        />
+      </div>
+    </v-expand-transition>
     <g-date
       :value="birth"
       label="生年月日"
@@ -122,24 +141,16 @@ export default {
     </v-expand-transition>
     <g-date
       :value="registrationDate"
-      label="社保加入日"
+      label="被扶養者登録日"
       required
       @input="$emit('update:registrationDate', $event)"
     />
-    <g-text-field
+    <g-text-field-basic-pension-number
       :value="basicPensionNumber"
-      label="基礎年金番号"
-      counter
-      max-length="10"
-      hint="ハイフン不要"
       @input="$emit('update:basicPensionNumber', $event)"
     />
-    <g-text-field
+    <g-text-field-my-number
       :value="myNumber"
-      label="マイナンバー"
-      counter
-      max-length="12"
-      hint="ハイフン不要"
       @input="$emit('update:myNumber', $event)"
     />
     <g-textarea

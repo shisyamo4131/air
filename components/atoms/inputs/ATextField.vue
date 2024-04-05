@@ -33,7 +33,7 @@ export default {
       required: false,
     },
     outlined: { type: Boolean, default: true, required: false },
-    requiredError: { type: String, default: '必須入力です', required: false },
+    requiredError: { type: String, default: '必須入力', required: false },
     rules: { type: Array, default: () => [], required: false },
     value: { type: undefined, default: undefined, required: false },
   },

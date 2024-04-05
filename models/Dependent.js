@@ -6,6 +6,7 @@ const props = {
     firstName: { type: String, default: '', required: false },
     lastNameKana: { type: String, default: '', required: false },
     firstNameKana: { type: String, default: '', required: false },
+    isSpouse: { type: Boolean, default: false, required: false },
     relation: { type: String, default: '', required: false },
     birth: { type: String, default: '', required: false },
     gender: { type: String, default: 'male', required: false },
@@ -15,9 +16,9 @@ const props = {
     city: { type: String, default: '', required: false },
     address1: { type: String, default: '', required: false },
     address2: { type: String, default: '', required: false },
-    registrationDate: { type: String, default: '', required: false }, // 社保加入日
     basicPensionNumber: { type: String, default: '', required: false },
     myNumber: { type: String, default: '', required: false },
+    registrationDate: { type: String, default: '', required: false }, // 被扶養者登録日
     status: { type: String, default: 'active', required: false },
     remarks: { type: String, default: '', required: false },
   },
@@ -82,5 +83,19 @@ export default class Dependent extends FireModel {
         typeof propDefault === 'function' ? propDefault() : propDefault
     })
     super.initialize(item)
+  }
+
+  beforeCreate() {
+    return new Promise((resolve) => {
+      if (this.isSpouse) this.relation = ''
+      if (this.isTogether) {
+        this.zipcode = ''
+        this.pref = ''
+        this.city = ''
+        this.address1 = ''
+        this.address2 = ''
+      }
+      resolve()
+    })
   }
 }

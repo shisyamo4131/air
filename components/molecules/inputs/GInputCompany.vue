@@ -5,12 +5,29 @@
  */
 import GTextField from './GTextField.vue'
 import GTextarea from './GTextarea.vue'
+import GTextFieldCompanyNumber from './GTextFieldCompanyNumber.vue'
+import GTextFieldInvoiceNumber from './GTextFieldInvoiceNumber.vue'
 import ARenderlessZipcode from '~/components/atoms/renderless/ARenderlessZipcode.vue'
 import { props } from '~/models/Company'
 import GMixinInput from '~/components/mixins/GMixinInput'
 export default {
-  components: { GTextField, ARenderlessZipcode, GTextarea },
+  /***************************************************************************
+   * COMPONENTS
+   ***************************************************************************/
+  components: {
+    GTextField,
+    ARenderlessZipcode,
+    GTextarea,
+    GTextFieldCompanyNumber,
+    GTextFieldInvoiceNumber,
+  },
+  /***************************************************************************
+   * MIXINS
+   ***************************************************************************/
   mixins: [props, GMixinInput],
+  /***************************************************************************
+   * METHODS
+   ***************************************************************************/
   methods: {
     loaded(e) {
       this.$emit('update:pref', e.pref)
@@ -96,21 +113,12 @@ export default {
         />
       </v-col>
     </v-row>
-    <g-text-field
+    <g-text-field-company-number
       :value="companyNumber"
-      label="法人番号"
-      counter
-      maxlength="13"
-      :rules="[(v) => !v || v.length === 13 || '13桁']"
       @input="$emit('update:companyNumber', $event)"
     />
-    <g-text-field
+    <g-text-field-invoice-number
       :value="invoiceNumber"
-      label="インボイス番号"
-      counter
-      maxlength="13"
-      prefix="T"
-      :rules="[(v) => !v || v.length === 13 || '13桁']"
       @input="$emit('update:invoiceNumber', $event)"
     />
     <g-textarea

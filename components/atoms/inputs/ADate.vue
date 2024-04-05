@@ -13,6 +13,7 @@ export default {
       default: '無効な日付です。',
       required: false,
     },
+    requiredError: { type: String, default: '必須入力', required: false },
   },
 }
 </script>

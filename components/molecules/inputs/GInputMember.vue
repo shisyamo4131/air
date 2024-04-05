@@ -146,7 +146,7 @@ export default {
       :value="basicPensionNumber"
       label="基礎年金番号"
       counter
-      max-length="10"
+      maxlength="10"
       hint="ハイフン不要"
       @input="$emit('update:basicPensionNumber', $event)"
     />
@@ -154,7 +154,7 @@ export default {
       :value="myNumber"
       label="マイナンバー"
       counter
-      max-length="12"
+      maxlength="12"
       hint="ハイフン不要"
       @input="$emit('update:myNumber', $event)"
     />

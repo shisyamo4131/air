@@ -92,11 +92,12 @@ export default {
 <template>
   <v-card>
     <v-card-title class="justify-space-between">
-      <span>家族構成</span>
+      <span>被扶養者</span>
       <g-dialog-editor
         v-model="dialog"
-        label="家族情報更新"
+        :label="`被扶養者情報${editMode === 'REGIST' ? '登録' : '更新'}`"
         :loading="loading"
+        max-width="600"
         @click:submit="submit"
       >
         <template #activator="{ attrs, on }">
