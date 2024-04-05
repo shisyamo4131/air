@@ -28,6 +28,32 @@ const MEMBER_STATUS_ARRAY = [
   { value: 'expired', text: '脱退済' },
 ]
 
+const DEPENDENT_RELATION = {
+  '01': '01: 実子・養子',
+  '02': '02: 1以外の子',
+  '03': '03: 父母・養父母',
+  '04': '04: 義父母',
+  '05': '05: 弟妹',
+  '06': '06: 兄姉',
+  '07': '07: 祖父母',
+  '08': '08: 曽祖父母',
+  '09': '09: 孫',
+  10: '10: その他',
+}
+
+const DEPENDENT_RELATION_ARRAY = [
+  { value: '01', text: '01: 実子・養子' },
+  { value: '02', text: '02: 1以外の子' },
+  { value: '03', text: '03: 父母・養父母' },
+  { value: '04', text: '04: 義父母' },
+  { value: '05', text: '05: 弟妹' },
+  { value: '06', text: '06: 兄姉' },
+  { value: '07', text: '07: 祖父母' },
+  { value: '08', text: '08: 曽祖父母' },
+  { value: '09', text: '09: 孫' },
+  { value: '10', text: '10: その他' },
+]
+
 // 以下、使用することが確認でき次第↑へ
 const CHAR_REGEXP = {
   全: '[ァ-ンヴー]',
@@ -146,6 +172,8 @@ const WORK_SHIFT_ARRAY = [
 export default (context, inject) => {
   inject('COMPANY_STATUS', COMPANY_STATUS)
   inject('COMPANY_STATUS_ARRAY', COMPANY_STATUS_ARRAY)
+  inject('DEPENDENT_RELATION', DEPENDENT_RELATION)
+  inject('DEPENDENT_RELATION_ARRAY', DEPENDENT_RELATION_ARRAY)
   inject('GENDER', GENDER)
   inject('GENDER_ARRAY', GENDER_ARRAY)
   inject('MEMBER_STATUS', MEMBER_STATUS)

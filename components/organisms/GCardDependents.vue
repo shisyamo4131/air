@@ -2,12 +2,17 @@
 import AIconRegist from '../atoms/icons/AIconRegist.vue'
 import GDialogEditor from '../molecules/dialogs/GDialogEditor.vue'
 import GInputDependent from '../molecules/inputs/GInputDependent.vue'
-import GDataTable from '../molecules/tables/GDataTable.vue'
+import GDataTableDependents from '../molecules/tables/GDataTableDependents.vue'
 export default {
   /***************************************************************************
    * COMPONENTS
    ***************************************************************************/
-  components: { GDialogEditor, AIconRegist, GDataTable, GInputDependent },
+  components: {
+    GDialogEditor,
+    AIconRegist,
+    GInputDependent,
+    GDataTableDependents,
+  },
   /***************************************************************************
    * PROPS
    ***************************************************************************/
@@ -69,10 +74,16 @@ export default {
         this.loading = false
       }
     },
-    openDialog(item, mode) {
-      this.editMode = mode
+    modify(item) {
+      this.editMode = 'UPDATE'
       this.editModel.initialize(item)
       this.dialog = true
+    },
+    async remove(item) {
+      const answer = window.confirm('削除しますか？')
+      if (!answer) return
+      this.editModel.initialize(item)
+      await this.editModel.delete()
     },
   },
 }
@@ -98,17 +109,14 @@ export default {
         </template>
       </g-dialog-editor>
     </v-card-title>
-    <g-data-table
+    <g-data-table-dependents
       :items="items"
-      :headers="[{ text: '氏名', value: 'fullName' }]"
-      :mobile-breakpoint="0"
       hide-pagination
       hide-search
-      show-actions
-      :actions="['edit', 'delete', 'detail']"
-      @click:edit="openDialog($event, 'UPDATE')"
-    >
-    </g-data-table>
+      :actions="['edit', 'delete']"
+      @click:edit="modify($event)"
+      @click:delete="remove($event)"
+    />
   </v-card>
 </template>
 

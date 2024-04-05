@@ -72,7 +72,7 @@ export default {
       :value="relation"
       label="続柄"
       required
-      :items="['親', '妻', '子']"
+      :items="$DEPENDENT_RELATION_ARRAY"
       :attach="attach"
       @input="$emit('update:relation', $event)"
     />

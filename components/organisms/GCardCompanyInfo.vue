@@ -108,6 +108,22 @@ export default {
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-subtitle> 法人番号 </v-list-item-subtitle>
+          <v-list-item-title>
+            {{ model.companyNumber }}
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-subtitle> インボイス番号 </v-list-item-subtitle>
+          <v-list-item-title>
+            {{ model.invoiceNumber }}
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
     </v-list>
     <v-card-text>
       {{ model.remarks }}
@@ -117,6 +133,7 @@ export default {
         v-model="dialog"
         label="会社情報更新"
         :loading="loading"
+        max-width="600"
         @click:submit="submit"
       >
         <template #activator="{ attrs, on }">

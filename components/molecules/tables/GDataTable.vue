@@ -32,7 +32,6 @@ export default {
     lazySearch: { type: undefined, default: undefined, required: false },
     loading: { type: Boolean, default: false, required: false },
     search: { type: undefined, default: undefined, required: false },
-    showActions: { type: Boolean, default: false, required: false },
   },
   /***************************************************************************
    * DATA
@@ -57,7 +56,7 @@ export default {
         align: 'right',
       }
       const result = this.headers.map((item) => item)
-      if (this.showActions) result.push(actionColumn)
+      if (this.actions.length) result.push(actionColumn)
       return result
     },
     internalHeight() {

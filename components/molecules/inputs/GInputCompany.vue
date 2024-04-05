@@ -101,6 +101,7 @@ export default {
       label="法人番号"
       counter
       maxlength="13"
+      :rules="[(v) => !v || v.length === 13 || '13桁']"
       @input="$emit('update:companyNumber', $event)"
     />
     <g-text-field
@@ -109,6 +110,7 @@ export default {
       counter
       maxlength="13"
       prefix="T"
+      :rules="[(v) => !v || v.length === 13 || '13桁']"
       @input="$emit('update:invoiceNumber', $event)"
     />
     <g-textarea
