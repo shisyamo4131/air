@@ -14,6 +14,7 @@ const props = {
     fax: { type: String, default: '', required: false },
     companyNumber: { type: String, default: '', required: false },
     invoiceNumber: { type: String, default: '', required: false },
+    jigyoushoSeiriKigou: { type: String, default: '', required: false },
     status: { type: String, default: 'active', required: false },
     remarks: { type: String, default: '', required: false },
   },

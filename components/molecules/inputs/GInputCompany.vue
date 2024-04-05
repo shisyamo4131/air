@@ -121,6 +121,14 @@ export default {
       :value="invoiceNumber"
       @input="$emit('update:invoiceNumber', $event)"
     />
+    <g-text-field
+      :value="jigyoushoSeiriKigou"
+      label="事業所整理記号"
+      counter
+      maxlength="8"
+      :rules="[(v) => !v || /^\d{7,8}$/.test(v) || '7桁または8桁の半角数字']"
+      @input="$emit('update:jigyoushoSeiriKigou', $event)"
+    />
     <g-textarea
       :value="remarks"
       label="備考"

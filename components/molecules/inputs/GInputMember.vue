@@ -5,6 +5,8 @@ import GDate from './GDate.vue'
 import GRadioGroup from './GRadioGroup.vue'
 import GSelect from './GSelect.vue'
 import GSwitch from './GSwitch.vue'
+import GTextFieldBasicPensionNumber from './GTextFieldBasicPensionNumber.vue'
+import GTextFieldMyNumber from './GTextFieldMyNumber.vue'
 import ARenderlessZipcode from '~/components/atoms/renderless/ARenderlessZipcode.vue'
 import { props } from '~/models/Member'
 import GMixinInput from '~/components/mixins/GMixinInput'
@@ -21,6 +23,8 @@ export default {
     GRadioGroup,
     GSelect,
     GSwitch,
+    GTextFieldBasicPensionNumber,
+    GTextFieldMyNumber,
   },
   mixins: [props, GMixinInput],
   props: {
@@ -142,21 +146,19 @@ export default {
       input-type="email"
       @input="$emit('update:email', $event)"
     />
-    <g-text-field
+    <g-text-field-basic-pension-number
       :value="basicPensionNumber"
-      label="基礎年金番号"
-      counter
-      maxlength="10"
-      hint="ハイフン不要"
       @input="$emit('update:basicPensionNumber', $event)"
     />
-    <g-text-field
+    <g-text-field-my-number
       :value="myNumber"
-      label="マイナンバー"
-      counter
-      maxlength="12"
-      hint="ハイフン不要"
       @input="$emit('update:myNumber', $event)"
+    />
+    <g-text-field
+      :value="healthInsuranceNumber"
+      label="被保険者番号"
+      :rules="[(v) => !v || /^\d$/.test(v) || '半角数字のみ']"
+      @input="$emit('update:healthInsuranceNumber', $event)"
     />
     <g-switch
       :input-value="hasReferee"

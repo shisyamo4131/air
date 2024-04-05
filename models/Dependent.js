@@ -18,6 +18,7 @@ const props = {
     address2: { type: String, default: '', required: false },
     basicPensionNumber: { type: String, default: '', required: false },
     myNumber: { type: String, default: '', required: false },
+    healthInsuranceBranch: { type: String, default: '', required: false },
     registrationDate: { type: String, default: '', required: false }, // 被扶養者登録日
     status: { type: String, default: 'active', required: false },
     remarks: { type: String, default: '', required: false },

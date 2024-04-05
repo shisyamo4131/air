@@ -1,4 +1,5 @@
 <script>
+import { orderBy } from 'firebase/firestore'
 import AIconRegist from '../atoms/icons/AIconRegist.vue'
 import GDialogEditor from '../molecules/dialogs/GDialogEditor.vue'
 import GInputDependent from '../molecules/inputs/GInputDependent.vue'
@@ -47,7 +48,7 @@ export default {
    * MOUNTED
    ***************************************************************************/
   mounted() {
-    this.items = this.model.subscribe()
+    this.items = this.model.subscribe(undefined, [orderBy('birth')])
   },
   /***************************************************************************
    * DESTROYED

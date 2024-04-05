@@ -124,6 +124,14 @@ export default {
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-subtitle> 事業所整理記号 </v-list-item-subtitle>
+          <v-list-item-title>
+            {{ model.jigyoushoSeiriKigou }}
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
     </v-list>
     <v-card-text>
       {{ model.remarks }}

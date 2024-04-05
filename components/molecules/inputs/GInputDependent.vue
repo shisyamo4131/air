@@ -139,12 +139,6 @@ export default {
         />
       </div>
     </v-expand-transition>
-    <g-date
-      :value="registrationDate"
-      label="被扶養者登録日"
-      required
-      @input="$emit('update:registrationDate', $event)"
-    />
     <g-text-field-basic-pension-number
       :value="basicPensionNumber"
       @input="$emit('update:basicPensionNumber', $event)"
@@ -153,6 +147,24 @@ export default {
       :value="myNumber"
       @input="$emit('update:myNumber', $event)"
     />
+    <v-row dense>
+      <v-col cols="12" sm="6">
+        <g-date
+          :value="registrationDate"
+          label="被扶養者登録日"
+          required
+          @input="$emit('update:registrationDate', $event)"
+        />
+      </v-col>
+      <v-col cols="12" sm="6">
+        <g-text-field
+          :value="healthInsuranceBranch"
+          label="枝番"
+          :rules="[(v) => !v || /^\d$/.test(v) || '半角数字のみ']"
+          @input="$emit('update:healthInsuranceBranch', $event)"
+        />
+      </v-col>
+    </v-row>
     <g-textarea
       :value="remarks"
       label="備考"
