@@ -115,9 +115,12 @@ export default {
       :items="items"
       hide-pagination
       hide-search
-      :actions="['edit', 'delete']"
+      :actions="['edit', 'delete', 'detail']"
       @click:edit="modify($event)"
       @click:delete="remove($event)"
+      @click:detail="
+        $router.push(`/members/${memberId}/dependents/${$event.docId}`)
+      "
     />
   </v-card>
 </template>

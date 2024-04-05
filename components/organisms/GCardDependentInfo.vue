@@ -1,41 +1,36 @@
 <script>
 import { doc, onSnapshot } from 'firebase/firestore'
-import GInputMember from '../inputs/GInputMember.vue'
+import GInputDependent from '../molecules/inputs/GInputDependent.vue'
 import GDialogEditor from '~/components/molecules/dialogs/GDialogEditor.vue'
 import AIconEdit from '~/components/atoms/icons/AIconEdit.vue'
 import AIconDelete from '~/components/atoms/icons/AIconDelete.vue'
 /**
- * ### GCardMemberInfo
+ * ### GCardDependentInfo
  * @author shisyamo4131
  */
 export default {
   components: {
-    GInputMember,
+    GInputDependent,
     GDialogEditor,
     AIconEdit,
     AIconDelete,
   },
   props: {
-    docId: { type: String, required: true },
+    dependentId: { type: String, required: true },
+    memberId: { type: String, required: true },
   },
   data() {
     return {
       dialog: false,
-      editModel: this.$Member(),
+      editModel: this.$Dependent(this.memberId),
       loading: false,
-      model: this.$Member(),
+      member: this.$Member(),
+      model: this.$Dependent(this.memberId),
       listener: null,
       tab: null,
     }
   },
   computed: {
-    company() {
-      const result = this.$Company()
-      result.initialize(
-        this.$store.getters['companies/get'](this.model.companyId)
-      )
-      return result
-    },
     age() {
       if (!this.model.birth) return undefined
       const result = this.$dayjs().diff(this.model.birth, 'year')
@@ -46,13 +41,21 @@ export default {
     dialog(v) {
       !v || this.editModel.initialize(this.model)
     },
-    docId: {
+    dependentId: {
       handler(newVal, oldVal) {
         if (newVal === oldVal) return
-        const docRef = doc(this.$firestore, `Members/${newVal}`)
+        const path = `Members/${this.memberId}/Dependents/${newVal}`
+        const docRef = doc(this.$firestore, path)
         this.listener = onSnapshot(docRef, (doc) => {
           this.model.initialize(doc.data())
         })
+      },
+      immediate: true,
+    },
+    memberId: {
+      handler(newVal, oldVal) {
+        if (newVal === oldVal) return
+        this.member.fetch(newVal)
       },
       immediate: true,
     },
@@ -78,7 +81,7 @@ export default {
       const result = window.confirm('本当に削除しますか？')
       if (!result) return
       await this.model.delete()
-      this.$router.replace('/members')
+      this.$emit('removed')
     },
   },
 }
@@ -96,16 +99,10 @@ export default {
     <v-list>
       <v-list-item two-line>
         <v-list-item-content>
+          <v-list-item-subtitle> 扶養者 </v-list-item-subtitle>
           <v-list-item-title>
-            {{ company.name }}
+            {{ member.fullName }}
           </v-list-item-title>
-          <v-list-item-subtitle>
-            {{
-              model.registrationDate
-                ? $dayjs(model.registrationDate).format('YYYY年MM月DD日 登録')
-                : ''
-            }}
-          </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -131,36 +128,6 @@ export default {
                 <v-icon left small color="error">mdi-information</v-icon
                 >脱退年齢に近づいています。
               </v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item two-line>
-            <v-list-item-content>
-              <v-list-item-subtitle> 住所 </v-list-item-subtitle>
-              <v-list-item-subtitle>
-                {{ `〒${model.zipcode}` }}
-              </v-list-item-subtitle>
-              <v-list-item-title>
-                {{ model.fullAddress }}
-              </v-list-item-title>
-              <v-list-item-subtitle>
-                {{ model.address2 }}
-              </v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item two-line>
-            <v-list-item-content>
-              <v-list-item-subtitle> 連絡先 </v-list-item-subtitle>
-              <v-list-item-title>
-                {{ model.mobile }}
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item two-line>
-            <v-list-item-content>
-              <v-list-item-subtitle> email </v-list-item-subtitle>
-              <v-list-item-title>
-                {{ model.email }}
-              </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -192,7 +159,7 @@ export default {
     <v-card-actions class="justify-space-around">
       <g-dialog-editor
         v-model="dialog"
-        label="会員情報更新"
+        label="被扶養者情報更新"
         :loading="loading"
         max-width="600"
         @click:submit="submit"
@@ -203,7 +170,7 @@ export default {
           </v-btn>
         </template>
         <template #form>
-          <g-input-member v-bind.sync="editModel" />
+          <g-input-dependent v-bind.sync="editModel" />
         </template>
       </g-dialog-editor>
       <v-btn icon @click="remove">

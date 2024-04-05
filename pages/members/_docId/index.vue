@@ -1,5 +1,5 @@
 <script>
-import GCardMemberInfo from '~/components/molecules/cards/GCardMemberInfo.vue'
+import GCardMemberInfo from '~/components/organisms/GCardMemberInfo.vue'
 import GCardDependents from '~/components/organisms/GCardDependents.vue'
 /**
  * ## page.members.docId
