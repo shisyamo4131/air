@@ -27,7 +27,7 @@ export default {
    ***************************************************************************/
   data() {
     return {
-      cols: { cols: '12', sm: '6', md: '4', lg: '3' },
+      cols: { cols: '12', sm: '6', md: '4', xl: '3' },
       dialog: false,
       editModel: this.$Company(),
       loading: false,

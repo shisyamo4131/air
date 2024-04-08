@@ -1,12 +1,16 @@
 <template>
-  <div></div>
+  <div>
+    <g-data-iterator :search.sync="search" />
+  </div>
 </template>
 
 <script>
+import GDataIterator from '~/components/molecules/tables/GDataIterator.vue'
 export default {
+  components: { GDataIterator },
   data() {
     return {
-      value: '',
+      search: 'aaa',
     }
   },
 }
