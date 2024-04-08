@@ -1,6 +1,8 @@
 <script>
-import GBtnRegistCompany from '~/components/molecules/btns/GBtnRegistCompany.vue'
+import AIconRegist from '~/components/atoms/icons/AIconRegist.vue'
 import GSimpleCardCompany from '~/components/molecules/cards/GSimpleCardCompany.vue'
+import GDialogEditor from '~/components/molecules/dialogs/GDialogEditor.vue'
+import GInputCompany from '~/components/molecules/inputs/GInputCompany.vue'
 import GDataIterator from '~/components/molecules/tables/GDataIterator.vue'
 /**
  * ### pages.companies.index
@@ -13,7 +15,19 @@ export default {
   components: {
     GDataIterator,
     GSimpleCardCompany,
-    GBtnRegistCompany,
+    GDialogEditor,
+    GInputCompany,
+    AIconRegist,
+  },
+  /***************************************************************************
+   * DATA
+   ***************************************************************************/
+  data() {
+    return {
+      dialog: false,
+      editMode: 'REGIST',
+      editModel: this.$Company(),
+    }
   },
   /***************************************************************************
    * COMPUTED
@@ -27,6 +41,11 @@ export default {
    * METHODS
    ***************************************************************************/
   methods: {
+    openEditor(item, mode) {
+      this.editModel.initialize(item)
+      this.editMode = mode
+      this.dialog = true
+    },
     /**
      * 引数で指定されたidの会社詳細画面に遷移します。
      */
@@ -40,7 +59,22 @@ export default {
 <template>
   <g-data-iterator :items="companies" hide-default-footer :items-per-page="-1">
     <template #append-search>
-      <g-btn-regist-company />
+      <g-dialog-editor
+        v-model="dialog"
+        :edit-mode.sync="editMode"
+        :edit-model="editModel"
+        label="会社"
+        max-width="600"
+      >
+        <template #activator="{ attrs, on }">
+          <v-btn icon v-bind="attrs" v-on="on">
+            <a-icon-regist />
+          </v-btn>
+        </template>
+        <template #form="{ attrs, on }">
+          <g-input-company v-bind="attrs" v-on="on" />
+        </template>
+      </g-dialog-editor>
     </template>
     <template #default="{ items }">
       <v-container fluid>
@@ -53,7 +87,12 @@ export default {
             md="4"
             xl="3"
           >
-            <g-simple-card-company v-bind="item" @click:detail="goToDetail" />
+            <g-simple-card-company
+              v-bind="item"
+              :actions="['edit', 'detail']"
+              @click:edit="openEditor(item, 'UPDATE')"
+              @click:detail="goToDetail(item.docId)"
+            />
           </v-col>
         </v-row>
       </v-container>

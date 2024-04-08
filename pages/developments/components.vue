@@ -4,26 +4,19 @@
  * @author shisyamo4131
  */
 import ASelect from '~/components/atoms/inputs/ASelect.vue'
-import GDataIteratorCompanies from '~/components/organisms/GDataIteratorCompanies.vue'
 export default {
   /***************************************************************************
    * COMPONENTS
    ***************************************************************************/
   components: {
     ASelect,
-    GDataIteratorCompanies,
   },
   /***************************************************************************
    * DATA
    ***************************************************************************/
   data() {
     return {
-      items: [
-        {
-          text: 'GDataIteratorCompanies',
-          component: 'g-data-iterator-companies',
-        },
-      ],
+      items: [],
       selectedItem: null,
     }
   },

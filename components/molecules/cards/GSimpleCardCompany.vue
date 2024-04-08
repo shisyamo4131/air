@@ -1,11 +1,11 @@
 <script>
-import AIconDetail from '~/components/atoms/icons/AIconDetail.vue'
+import GSimpleCard from './GSimpleCard.vue'
 import { props } from '~/models/Company'
 export default {
   /***************************************************************************
    * COMPONENTS
    ***************************************************************************/
-  components: { AIconDetail },
+  components: { GSimpleCard },
   /***************************************************************************
    * MIXINS
    ***************************************************************************/
@@ -14,14 +14,13 @@ export default {
    * PROPS
    ***************************************************************************/
   props: {
-    docId: { type: String, required: true },
     fullAddress: { type: String, default: undefined, required: false },
   },
 }
 </script>
 
 <template>
-  <v-card>
+  <g-simple-card v-bind="$attrs" v-on="$listeners">
     <v-list-item>
       <v-list-item-avatar>
         <v-avatar color="primary" dark size="36">
@@ -39,12 +38,7 @@ export default {
         </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
-    <v-card-actions class="justify-end">
-      <v-btn icon @click="$emit('click:detail', docId)">
-        <a-icon-detail />
-      </v-btn>
-    </v-card-actions>
-  </v-card>
+  </g-simple-card>
 </template>
 
 <style></style>
