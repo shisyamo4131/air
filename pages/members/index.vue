@@ -1,7 +1,7 @@
 <script>
 import GSimpleCardMember from '~/components/molecules/cards/GSimpleCardMember.vue'
 import GDataIterator from '~/components/molecules/tables/GDataIterator.vue'
-import GMembers from '~/components/organisms/GMembers.vue'
+import GMembers from '~/components/controllers/GMembers.vue'
 /**
  * ### pages.companies.index
  * @author shisyamo4131

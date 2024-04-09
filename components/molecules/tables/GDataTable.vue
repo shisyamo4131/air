@@ -135,11 +135,13 @@ export default {
     <!-- Search bar is shown at top position if 'hideSearch' prop is false. -->
     <template v-if="!hideSearch" #top>
       <v-toolbar flat>
+        <slot name="prepend-search" />
         <g-text-field-search
           v-model="internalSearch"
           :lazy-value.sync="internalLazySearch"
           :loading="loading"
         />
+        <slot name="append-search" />
       </v-toolbar>
     </template>
     <!-- ### ACTIONS COLUMN ### -->

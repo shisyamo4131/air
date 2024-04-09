@@ -27,9 +27,6 @@ export default {
     GTextFieldMyNumber,
   },
   mixins: [props, GMixinInput],
-  props: {
-    attach: { type: undefined, default: false, required: false },
-  },
   /***************************************************************************
    * METHODS
    ***************************************************************************/

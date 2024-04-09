@@ -1,5 +1,5 @@
 <script>
-import GMembers from '../GMembers.vue'
+import GMembers from '../../controllers/GMembers.vue'
 import GBtnMemberRegist from '~/components/molecules/btns/GBtnMemberRegist.vue'
 import GDataTableMembers from '~/components/molecules/tables/GDataTableMembers.vue'
 export default {

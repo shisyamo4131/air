@@ -1,3 +1,4 @@
+import EditMode from '~/components/mixins/EditMode'
 /**
  * ### mixins.GMixinInput.js
  * inputコンポーネントに実装する既定propsです。
@@ -17,13 +18,8 @@
  * @author shisyamo4131
  */
 export default {
+  mixins: [EditMode],
   props: {
     attach: { type: undefined, default: true, required: false },
-    editMode: {
-      type: String,
-      default: 'REGIST',
-      validator: (v) => ['REGIST', 'UPDATE', 'DELETE'].includes(v),
-      required: false,
-    },
   },
 }

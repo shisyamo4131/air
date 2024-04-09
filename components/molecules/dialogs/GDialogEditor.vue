@@ -62,35 +62,15 @@ export default {
    * PROPS
    ***************************************************************************/
   props: {
-    editModel: { type: Object, required: true },
     label: { type: String, default: undefined, required: false },
+    loading: { type: Boolean, default: false, required: false },
     persistent: { type: Boolean, default: true, required: false },
     scrollable: { type: Boolean, default: true, required: false },
-  },
-  /***************************************************************************
-   * DATA
-   ***************************************************************************/
-  data() {
-    return {
-      loading: false,
-    }
   },
   /***************************************************************************
    * COMPUTED
    ***************************************************************************/
   computed: {
-    attrs() {
-      return { ...this.editModel, editMode: this.editMode }
-    },
-    on() {
-      const result = {}
-      Object.keys(this.editModel).forEach((key) => {
-        result[`update:${key}`] = ($event) => {
-          this.editModel.initialize({ ...this.editModel, [key]: $event })
-        }
-      })
-      return result
-    },
     mode() {
       if (this.editMode === 'REGIST') return '登録'
       if (this.editMode === 'UPDATE') return '変更'
@@ -104,9 +84,7 @@ export default {
     '$attrs.value'(v) {
       if (!v) {
         document.getElementById(`scroll-container-${this._uid}`).scrollTop = 0
-        this.editModel.initialize()
         this.$refs.form.resetValidation()
-        this.$emit('update:editMode', 'REGIST')
       }
     },
   },
@@ -119,21 +97,9 @@ export default {
       if (!result) alert('入力に不備があります。')
       return result
     },
-    async submit() {
+    submit() {
       if (!this.validate()) return
-      try {
-        this.loading = true
-        if (this.editMode === 'REGIST') await this.editModel.create()
-        if (this.editMode === 'UPDATE') await this.editModel.update()
-        if (this.editMode === 'DELETE') await this.editModel.delete()
-        this.$emit('input', false)
-      } catch (err) {
-        // eslint-disable-next-line
-        console.error(err)
-        alert(err.message)
-      } finally {
-        this.loading = false
-      }
+      this.$emit('click:submit')
     },
   },
 }
@@ -155,11 +121,11 @@ export default {
       </v-card-title>
       <v-card-text :id="`scroll-container-${_uid}`" class="py-5 px-6">
         <v-form ref="form" :disabled="loading">
-          <slot name="form" v-bind="{ attrs, on }" />
+          <slot name="form" />
         </v-form>
       </v-card-text>
       <v-card-actions class="justify-space-between">
-        <v-btn icon :disabled="loading" @click="$emit('input', false)">
+        <v-btn icon :disabled="loading" @click="$emit('click:cancel')">
           <a-icon-close />
         </v-btn>
         <v-btn icon :disabled="loading" :loading="loading" @click="submit">

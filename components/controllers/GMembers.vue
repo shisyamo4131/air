@@ -1,5 +1,6 @@
 <script>
 import { where } from 'firebase/firestore'
+import EditMode from '~/components/mixins/EditMode'
 /**
  * ### GMembers
  * defaultスロットのみを保有し、data-tableまたはdata-iteratorがスロットに
@@ -7,6 +8,10 @@ import { where } from 'firebase/firestore'
  *
  */
 export default {
+  /***************************************************************************
+   * MIXINS
+   ***************************************************************************/
+  mixins: [EditMode],
   /***************************************************************************
    * PROPS
    ***************************************************************************/
@@ -43,6 +48,7 @@ export default {
    * METHODS
    ***************************************************************************/
   methods: {
+    async submit() {},
     subscribe() {
       const constraints = this.companyId
         ? [where('companyId', '==', this.companyId)]
