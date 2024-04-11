@@ -42,12 +42,12 @@ export default {
    * COMPUTED
    ***************************************************************************/
   computed: {
-    attrs() {
+    modelAttrs() {
       return {
         ...JSON.parse(JSON.stringify(this.model)),
       }
     },
-    on() {
+    modelOn() {
       const result = {}
       Object.keys(this.model).forEach((key) => {
         result[`update:${key}`] = ($event) => {
@@ -163,8 +163,8 @@ export default {
           },
         },
         model: {
-          attrs: { ...this.attrs, editMode: this.editMode },
-          on: this.on,
+          attrs: { ...this.modelAttrs, editMode: this.editMode },
+          on: this.modelOn,
         },
         table: {
           attrs: {

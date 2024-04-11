@@ -29,6 +29,7 @@ export default {
   data() {
     return {
       items: [],
+      model: this.$Member(),
     }
   },
   /***************************************************************************
@@ -37,7 +38,7 @@ export default {
   watch: {
     companyId: {
       handler() {
-        this.items = this.$Member().subscribe()
+        this.items = this.model.subscribe()
       },
       immediate: true,
     },
