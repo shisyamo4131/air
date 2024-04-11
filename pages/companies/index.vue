@@ -1,4 +1,5 @@
 <script>
+import GDataTableCompanies from '~/components/molecules/tables/GDataTableCompanies.vue'
 import GManagerCompanies from '~/components/organisms/GManagerCompanies.vue'
 /**
  * ### pages.companies.index
@@ -10,6 +11,7 @@ export default {
    ***************************************************************************/
   components: {
     GManagerCompanies,
+    GDataTableCompanies,
   },
   /***************************************************************************
    * METHODS
@@ -27,13 +29,19 @@ export default {
 
 <template>
   <g-manager-companies
+    label="会社"
+    :dialog-props="{ 'max-width': 600 }"
     :table-props="{
-      'hide-pagination': true,
       actions: ['edit', 'delete', 'detail'],
+      'hide-pagination': true,
+      cols: { cols: 12, sm: 6, md: 4, lg: 3 },
     }"
-    :col-props="{ cols: 12, sm: 6, md: 4, lg: 3 }"
     @click:detail="goToDetail($event.docId)"
-  />
+  >
+    <template #table="{ attrs, on }">
+      <g-data-table-companies v-bind="attrs" v-on="on" />
+    </template>
+  </g-manager-companies>
 </template>
 
 <style></style>

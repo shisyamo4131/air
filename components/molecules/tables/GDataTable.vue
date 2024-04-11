@@ -1,5 +1,4 @@
 <script>
-import GTextFieldSearch from '../inputs/GTextFieldSearch.vue'
 import AIconDelete from '~/components/atoms/icons/AIconDelete.vue'
 import AIconEdit from '~/components/atoms/icons/AIconEdit.vue'
 import ADataTable from '~/components/atoms/tables/ADataTable.vue'
@@ -17,7 +16,6 @@ export default {
     ADataTable,
     AIconDelete,
     AIconEdit,
-    GTextFieldSearch,
     AIconDetail,
   },
   /***************************************************************************
@@ -28,18 +26,12 @@ export default {
     headers: { type: Array, default: () => [], required: false },
     height: { type: [Number, String], default: undefined, required: false },
     hidePagination: { type: Boolean, default: false, required: false },
-    hideSearch: { type: Boolean, default: false, required: false },
-    lazySearch: { type: undefined, default: undefined, required: false },
-    loading: { type: Boolean, default: false, required: false },
-    search: { type: undefined, default: undefined, required: false },
   },
   /***************************************************************************
    * DATA
    ***************************************************************************/
   data() {
     return {
-      internalLazySearch: null,
-      internalSearch: null,
       page: 1,
       pageCount: 0,
     }
@@ -61,40 +53,20 @@ export default {
     },
     internalHeight() {
       if (!this.height) return undefined
-      const result =
-        parseInt(this.height) - this.searchBarHeight - this.paginationHeight
+      const result = parseInt(this.height) - this.paginationHeight
       return result <= 0 ? undefined : result
     },
     paginationHeight() {
       if (this.hidePagination) return 0
       return 76
     },
-    searchBarHeight() {
-      if (this.hideSearch) return 0
-      if (this.$vuetify.breakpoint.smAndDown) return 56
-      return 64
-    },
   },
   /***************************************************************************
    * WATCH
    ***************************************************************************/
   watch: {
-    internalLazySearch(newVal, oldVal) {
-      if (newVal === oldVal) return
-      this.$emit('update:lazySearch', newVal)
-    },
-    internalSearch(newVal, oldVal) {
-      if (newVal === oldVal) return
-      this.$emit('update:search', newVal)
-    },
     page() {
       this.scrollToTop()
-    },
-    search: {
-      handler(v) {
-        this.internalSearch = v
-      },
-      immediate: true,
     },
   },
   /***************************************************************************
@@ -130,19 +102,6 @@ export default {
     </template>
     <template v-for="(_, slotName) in $slots" #[slotName]>
       <slot :name="slotName" />
-    </template>
-    <!-- ### SEARCH BAR ### -->
-    <!-- Search bar is shown at top position if 'hideSearch' prop is false. -->
-    <template v-if="!hideSearch" #top>
-      <v-toolbar flat>
-        <slot name="prepend-search" />
-        <g-text-field-search
-          v-model="internalSearch"
-          :lazy-value.sync="internalLazySearch"
-          :loading="loading"
-        />
-        <slot name="append-search" />
-      </v-toolbar>
     </template>
     <!-- ### ACTIONS COLUMN ### -->
     <template #[`item.actions`]="props">

@@ -9,9 +9,11 @@ export default {
    ***************************************************************************/
   props: {
     /* An object provided to the VCol included in VContainer. */
-    colProps: { type: Object, default: () => ({}), required: false },
+    cols: { type: Object, default: () => ({}), required: false },
     /* A function used to different process from default submit. */
     customSubmit: { type: Function, default: undefined, required: false },
+    /* An object provided to the dialog component. */
+    dialogProps: { type: Object, default: () => ({}), required: false },
     /* An array provided to the table component. */
     items: { type: Array, default: () => [], required: false },
     /* A string provided to dialog component. */
@@ -32,6 +34,8 @@ export default {
       dialog: false,
       /* A string used to control the edit-mode. */
       editMode: 'REGIST',
+      /* A string used for searching items provided to table-props. */
+      internalSearch: null,
       /* An boolean used to indicate that processing is in progress. */
       loading: false,
       /* The model controlled by this component. */
@@ -93,13 +97,14 @@ export default {
     onClickCancel() {
       this.dialog = false
     },
-    onClickDelete(item) {
+    async onClickDelete(item) {
       if (!item) return
       const answer = window.confirm('削除してもよろしいですか？')
       if (!answer) return
       this.editMode = 'DELETE'
       this.model.initialize(item)
-      this.submit('DELETE')
+      await this.submit('DELETE')
+      this.editMode = 'REGIST'
     },
     onClickDetail(item) {
       this.$emit('click:detail', item)
@@ -127,7 +132,8 @@ export default {
     async submit(mode) {
       try {
         this.loading = true
-        if (this.customSubmit) await this.customSubmit(mode)
+        if (this.customSubmit)
+          await this.customSubmit({ model: this.model, editMode: mode })
         if (!this.customSubmit) await this.defaultSubmit(mode)
         this.$emit(`submit:complete`, mode)
         this.dialog = false
@@ -155,6 +161,7 @@ export default {
             label: this.label,
             loading: this.loading,
             value: this.dialog,
+            ...this.dialogProps,
           },
           on: {
             input: (v) => (this.dialog = v),
@@ -166,11 +173,15 @@ export default {
           attrs: { ...this.modelAttrs, editMode: this.editMode },
           on: this.modelOn,
         },
+        search: {
+          attrs: { value: this.internalSearch },
+          on: { input: (v) => (this.internalSearch = v) },
+        },
         table: {
           attrs: {
             items: this.items,
+            search: this.internalSearch,
             ...this.tableProps,
-            colProps: this.colProps,
           },
           on: {
             'click:edit': this.onClickEdit,

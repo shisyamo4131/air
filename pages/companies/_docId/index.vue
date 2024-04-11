@@ -42,7 +42,14 @@ export default {
       />
     </v-col>
     <v-col cols="12" md="8">
-      <g-manager-members :company-id="docId" />
+      <g-manager-members
+        label="会員"
+        :company-id="docId"
+        :dialog-props="{ 'max-width': 600 }"
+        :table-props="{
+          actions: ['edit', 'delete'],
+        }"
+      />
     </v-col>
   </v-row>
 </template>
