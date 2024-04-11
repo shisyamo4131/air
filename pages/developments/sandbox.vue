@@ -1,67 +1,19 @@
+<template>
+  <div>
+    <g-data-iterator :items="$store.state.companies.items" :actions="['edit']">
+      <template #col="{ item, actions }">
+        <g-simple-card-company :item="item" :actions="actions" />
+      </template>
+    </g-data-iterator>
+  </div>
+</template>
+
 <script>
 import GSimpleCardCompany from '~/components/molecules/cards/GSimpleCardCompany.vue'
 import GDataIterator from '~/components/molecules/tables/GDataIterator.vue'
-import GController from '~/components/organisms/GController.vue'
 export default {
-  /***************************************************************************
-   * COMPONENTS
-   ***************************************************************************/
-  components: { GController, GDataIterator, GSimpleCardCompany },
-  /***************************************************************************
-   * PROPS
-   ***************************************************************************/
-  props: {
-    cols: {
-      type: Object,
-      default: () => {
-        return {}
-      },
-      required: false,
-    },
-  },
-  /***************************************************************************
-   * DATA
-   ***************************************************************************/
-  data() {
-    return {
-      model: this.$Company(),
-    }
-  },
-  /***************************************************************************
-   * COMPUTED
-   ***************************************************************************/
-  computed: {
-    items() {
-      return this.$store.state.companies.items
-    },
-  },
+  components: { GDataIterator, GSimpleCardCompany },
 }
 </script>
-
-<template>
-  <g-controller :model="model" label="会社" :items="items">
-    <template #default="{ table }">
-      <g-data-iterator v-bind="table.attrs">
-        <template #default="props">
-          <v-container fluid>
-            <v-row>
-              <v-col
-                v-for="(item, index) of props.items"
-                :key="index"
-                v-bind="{ ...cols }"
-              >
-                <g-simple-card-company
-                  v-bind="item"
-                  :actions="['edit']"
-                  @click:edit="table.on['click:edit'](item)"
-                />
-              </v-col>
-            </v-row>
-          </v-container>
-        </template>
-      </g-data-iterator>
-    </template>
-  </g-controller>
-</template>
 
 <style></style>

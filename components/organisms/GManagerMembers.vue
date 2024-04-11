@@ -1,9 +1,9 @@
 <script>
 import AIconRegist from '../atoms/icons/AIconRegist.vue'
 import GDialogEditor from '../molecules/dialogs/GDialogEditor.vue'
-import GInputCompany from '../molecules/inputs/GInputCompany.vue'
+import GInputMember from '../molecules/inputs/GInputMember.vue'
 import GCollectionController from './GCollectionController.vue'
-import GSimpleCardCompany from '~/components/molecules/cards/GSimpleCardCompany.vue'
+import GSimpleCardMember from '~/components/molecules/cards/GSimpleCardMember.vue'
 import GDataIterator from '~/components/molecules/tables/GDataIterator.vue'
 export default {
   /***************************************************************************
@@ -11,31 +11,42 @@ export default {
    ***************************************************************************/
   components: {
     GDataIterator,
-    GSimpleCardCompany,
+    GSimpleCardMember,
     GDialogEditor,
     AIconRegist,
-    GInputCompany,
+    GInputMember,
     GCollectionController,
   },
   /***************************************************************************
    * PROPS
    ***************************************************************************/
-  props: {},
+  props: {
+    companyId: { type: String, default: undefined, required: false },
+  },
   /***************************************************************************
    * DATA
    ***************************************************************************/
   data() {
     return {
-      editModel: this.$Company(),
+      items: [],
     }
   },
   /***************************************************************************
-   * COMPUTED
+   * WATCH
    ***************************************************************************/
-  computed: {
-    items() {
-      return this.$store.state.companies.items
+  watch: {
+    companyId: {
+      handler() {
+        this.items = this.$Member().subscribe()
+      },
+      immediate: true,
     },
+  },
+  /***************************************************************************
+   * DESTROYED
+   ***************************************************************************/
+  destroyed() {
+    this.model.unsubscribe()
   },
 }
 </script>
@@ -44,8 +55,8 @@ export default {
   <g-collection-controller
     v-bind="$attrs"
     :items="items"
-    label="会社"
-    model-id="Company"
+    label="会員"
+    model-id="Member"
     v-on="$listeners"
   >
     <template #default="{ model, dialog, table }">
@@ -62,12 +73,12 @@ export default {
               </v-btn>
             </template>
             <template #form>
-              <g-input-company v-bind="model.attrs" v-on="model.on" />
+              <g-input-member v-bind="model.attrs" v-on="model.on" />
             </template>
           </g-dialog-editor>
         </template>
         <template #col="{ attrs, on }">
-          <g-simple-card-company v-bind="attrs" v-on="on" />
+          <g-simple-card-member v-bind="attrs" v-on="on" />
         </template>
       </g-data-iterator>
     </template>

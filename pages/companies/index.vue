@@ -15,11 +15,6 @@ export default {
    * METHODS
    ***************************************************************************/
   methods: {
-    openEditor(item, mode) {
-      this.editModel.initialize(item)
-      this.editMode = mode
-      this.dialog = true
-    },
     /**
      * 引数で指定されたidの会社詳細画面に遷移します。
      */
@@ -36,7 +31,7 @@ export default {
       'hide-pagination': true,
       actions: ['edit', 'delete', 'detail'],
     }"
-    :cols="{ cols: 12, sm: 6, md: 4, lg: 3 }"
+    :col-props="{ cols: 12, sm: 6, md: 4, lg: 3 }"
     @click:detail="goToDetail($event.docId)"
   />
 </template>

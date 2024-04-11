@@ -13,7 +13,7 @@ export const state = () => ({
 export const getters = {
   get: (state) => (docId) => {
     const result = state.items.find((item) => item.docId === docId)
-    return result
+    return result || {}
   },
 }
 /******************************************************************

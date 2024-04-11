@@ -10,6 +10,7 @@ export default {
    ***************************************************************************/
   props: {
     actions: { type: Array, default: () => [], required: false },
+    colProps: { type: Object, default: () => ({}), required: false },
     hidePagination: { type: Boolean, default: false, required: false },
     hideSearch: { type: Boolean, default: false, required: false },
     search: { type: String, default: undefined, required: false },
@@ -37,6 +38,13 @@ export default {
         this.internalSearch = v
         this.$emit('update:search', v)
       },
+    },
+    colOn() {
+      return {
+        'click:edit': (item) => this.$emit('click:edit', item),
+        'click:delete': (item) => this.$emit('click:delete', item),
+        'click:detail': (item) => this.$emit('click:detail', item),
+      }
     },
   },
   /***************************************************************************
@@ -74,7 +82,22 @@ export default {
       </slot>
     </template>
     <template #default="props">
-      <slot name="default" v-bind="{ ...props, actions }" />
+      <slot name="default" v-bind="{ ...props, actions }">
+        <v-container fluid>
+          <v-row>
+            <v-col
+              v-for="(item, index) of props.items"
+              :key="index"
+              v-bind="colProps"
+            >
+              <slot
+                name="col"
+                v-bind="{ attrs: { item, actions }, on: colOn }"
+              />
+            </v-col>
+          </v-row>
+        </v-container>
+      </slot>
     </template>
     <!-- ### FOOTER ### -->
     <!-- Show pagination if 'hidePagination' prop is false. -->

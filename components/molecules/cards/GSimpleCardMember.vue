@@ -1,44 +1,26 @@
 <script>
-import AIconDetail from '~/components/atoms/icons/AIconDetail.vue'
-import { props } from '~/models/Member'
+import GActionCard from './GActionCard.vue'
 export default {
   /***************************************************************************
    * COMPONENTS
    ***************************************************************************/
-  components: { AIconDetail },
-  /***************************************************************************
-   * MIXINS
-   ***************************************************************************/
-  mixins: [props],
-  /***************************************************************************
-   * PROPS
-   ***************************************************************************/
-  props: {
-    docId: { type: String, required: true },
-    fullName: { type: String, default: undefined, required: false },
-    fullNameKana: { type: String, default: undefined, required: false },
-  },
+  components: { GActionCard },
 }
 </script>
 
 <template>
-  <v-card>
+  <g-action-card v-slot="item" v-bind="$attrs" v-on="$listeners">
     <v-card-title class="justify-space-between">
       <span>
-        {{ fullName }}
-        <v-icon small>mdi-gender-{{ gender }}</v-icon>
+        {{ item.fullName }}
+        <v-icon small>mdi-gender-{{ item.gender }}</v-icon>
       </span>
       <v-chip small>
-        {{ $store.getters['companies/get'](companyId)?.abbr || '' }}
+        {{ $store.getters['companies/get'](item.companyId)?.abbr || '' }}
       </v-chip>
     </v-card-title>
-    <v-card-subtitle>{{ fullNameKana }}</v-card-subtitle>
-    <v-card-actions class="justify-end">
-      <v-btn icon @click="$emit('click:detail', docId)">
-        <a-icon-detail />
-      </v-btn>
-    </v-card-actions>
-  </v-card>
+    <v-card-subtitle>{{ item.fullNameKana }}</v-card-subtitle>
+  </g-action-card>
 </template>
 
 <style></style>
