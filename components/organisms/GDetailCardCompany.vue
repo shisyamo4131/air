@@ -78,7 +78,7 @@ export default {
           <v-list-item-content>
             <v-list-item-subtitle> インボイス番号 </v-list-item-subtitle>
             <v-list-item-title>
-              {{ item.invoiceNumber }}
+              {{ `T-${item.invoiceNumber}` }}
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>

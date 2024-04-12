@@ -54,6 +54,20 @@ const DEPENDENT_RELATION_ARRAY = [
   { value: '10', text: '10: その他' },
 ]
 
+const SOCIAL_INSURANCE_STATUS = {
+  '0:unapplied': '0: 未申請',
+  '1:inProcess': '1: 申請中',
+  '2:completed': '2: 加入中',
+  '9:removed': '9: 異動（脱退）',
+}
+
+const SOCIAL_INSURANCE_STATUS_ARRAY = [
+  { value: '0:unapplied', text: '0: 未申請' },
+  { value: '1:inProcess', text: '1: 申請中' },
+  { value: '2:completed', text: '2: 加入中' },
+  { value: '9:removed', text: '9: 異動（脱退）' },
+]
+
 // 以下、使用することが確認でき次第↑へ
 const CHAR_REGEXP = {
   全: '[ァ-ンヴー]',
@@ -178,6 +192,8 @@ export default (context, inject) => {
   inject('GENDER_ARRAY', GENDER_ARRAY)
   inject('MEMBER_STATUS', MEMBER_STATUS)
   inject('MEMBER_STATUS_ARRAY', MEMBER_STATUS_ARRAY)
+  inject('SOCIAL_INSURANCE_STATUS', SOCIAL_INSURANCE_STATUS)
+  inject('SOCIAL_INSURANCE_STATUS_ARRAY', SOCIAL_INSURANCE_STATUS_ARRAY)
   inject('CHAR_REGEXP', CHAR_REGEXP)
   inject('CHAR_REGEXP_ARRAY', CHAR_REGEXP_ARRAY)
   inject('DEADLINE', DEADLINE)

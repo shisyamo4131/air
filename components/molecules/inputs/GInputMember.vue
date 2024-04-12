@@ -173,11 +173,33 @@ export default {
       :value="myNumber"
       @input="$emit('update:myNumber', $event)"
     />
+    <g-select
+      :value="socialInsuranceStatus"
+      label="社会保険加入手続"
+      :items="$SOCIAL_INSURANCE_STATUS_ARRAY"
+      required
+      @input="$emit('update:socialInsuranceStatus', $event)"
+    />
+    <v-expand-transition>
+      <div v-show="socialInsuranceStatus === '2:completed'">
+        <g-text-field
+          :value="healthInsuranceNumber"
+          label="被保険者番号"
+          :rules="[(v) => !v || /^\d*$/.test(v) || '半角数字のみ']"
+          :required="socialInsuranceStatus === '2:completed'"
+          @input="$emit('update:healthInsuranceNumber', $event)"
+        />
+      </div>
+    </v-expand-transition>
     <g-text-field
-      :value="healthInsuranceNumber"
-      label="被保険者番号"
-      :rules="[(v) => !v || /^\d$/.test(v) || '半角数字のみ']"
-      @input="$emit('update:healthInsuranceNumber', $event)"
+      :value="job"
+      label="職業"
+      @input="$emit('update:job', $event)"
+    />
+    <g-text-field
+      :value="jobName"
+      label="屋号"
+      @input="$emit('update:jobName', $event)"
     />
     <g-switch
       :input-value="hasReferee"

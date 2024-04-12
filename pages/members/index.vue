@@ -33,6 +33,7 @@ export default {
       actions: ['edit', 'delete', 'detail'],
       'hide-pagination': true,
       cols: { cols: 12, sm: 6, md: 4, lg: 3 },
+      'sort-by': 'fullNameKana',
     }"
     @click:detail="goToDetail($event.docId)"
   >

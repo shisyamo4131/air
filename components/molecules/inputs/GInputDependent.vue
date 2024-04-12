@@ -147,24 +147,44 @@ export default {
       :value="myNumber"
       @input="$emit('update:myNumber', $event)"
     />
-    <v-row dense>
-      <v-col cols="12" sm="6">
+    <g-select
+      :value="socialInsuranceStatus"
+      label="社会保険"
+      :items="$SOCIAL_INSURANCE_STATUS_ARRAY"
+      required
+      @input="$emit('update:socialInsuranceStatus', $event)"
+    />
+    <v-expand-transition>
+      <v-row v-show="socialInsuranceStatus === '2:completed'" dense>
+        <v-col cols="12" sm="6">
+          <g-date
+            :value="registrationDate"
+            label="被扶養者登録日"
+            :required="socialInsuranceStatus === '2:completed'"
+            @input="$emit('update:registrationDate', $event)"
+          />
+        </v-col>
+        <v-col cols="12" sm="6">
+          <g-text-field
+            :value="healthInsuranceBranch"
+            label="枝番"
+            :rules="[(v) => !v || /^\d$/.test(v) || '半角数字のみ']"
+            :required="socialInsuranceStatus === '2:completed'"
+            @input="$emit('update:healthInsuranceBranch', $event)"
+          />
+        </v-col>
+      </v-row>
+    </v-expand-transition>
+    <v-expand-transition>
+      <div v-show="socialInsuranceStatus === '9:removed'">
         <g-date
-          :value="registrationDate"
-          label="被扶養者登録日"
-          required
-          @input="$emit('update:registrationDate', $event)"
+          :value="removeDate"
+          label="被扶養者解除日"
+          :required="socialInsuranceStatus === '9:removed'"
+          @input="$emit('update:removeDate', $event)"
         />
-      </v-col>
-      <v-col cols="12" sm="6">
-        <g-text-field
-          :value="healthInsuranceBranch"
-          label="枝番"
-          :rules="[(v) => !v || /^\d$/.test(v) || '半角数字のみ']"
-          @input="$emit('update:healthInsuranceBranch', $event)"
-        />
-      </v-col>
-    </v-row>
+      </div>
+    </v-expand-transition>
     <g-textarea
       :value="remarks"
       label="備考"

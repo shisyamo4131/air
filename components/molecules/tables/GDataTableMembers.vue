@@ -24,6 +24,7 @@ export default {
         return [{ text: '氏名', value: 'fullName' }]
       }
       return [
+        { text: '被保険者番号', value: 'healthInsuranceNumber' },
         { text: '氏名', value: 'fullName' },
         { text: '状態', value: 'status', sortable: false },
       ]

@@ -18,8 +18,14 @@ const props = {
     address2: { type: String, default: '', required: false },
     basicPensionNumber: { type: String, default: '', required: false },
     myNumber: { type: String, default: '', required: false },
-    healthInsuranceBranch: { type: String, default: '', required: false },
+    socialInsuranceStatus: {
+      type: String,
+      default: '0:unapplied',
+      required: false,
+    },
     registrationDate: { type: String, default: '', required: false }, // 被扶養者登録日
+    healthInsuranceBranch: { type: String, default: '', required: false },
+    removeDate: { type: String, default: '', required: false },
     status: { type: String, default: 'active', required: false },
     remarks: { type: String, default: '', required: false },
   },
@@ -87,6 +93,20 @@ export default class Dependent extends FireModel {
   }
 
   beforeCreate() {
+    return new Promise((resolve) => {
+      if (this.isSpouse) this.relation = ''
+      if (this.isTogether) {
+        this.zipcode = ''
+        this.pref = ''
+        this.city = ''
+        this.address1 = ''
+        this.address2 = ''
+      }
+      resolve()
+    })
+  }
+
+  beforeUpdate() {
     return new Promise((resolve) => {
       if (this.isSpouse) this.relation = ''
       if (this.isTogether) {

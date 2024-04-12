@@ -21,11 +21,16 @@ export default {
   computed: {
     headers() {
       if (this.$vuetify.breakpoint.xs) {
-        return [{ text: '氏名', value: 'fullName' }]
+        return [
+          { text: '氏名', value: 'fullName' },
+          { text: '社会保険', value: 'socialInsuranceStatus' },
+        ]
       }
       return [
+        { text: '枝番', value: 'healthInsuranceBranch' },
         { text: '氏名', value: 'fullName' },
         { text: '続柄', value: 'relation' },
+        { text: '社会保険', value: 'socialInsuranceStatus' },
       ]
     },
   },
@@ -48,6 +53,9 @@ export default {
     </template>
     <template #[`item.relation`]="{ item }">
       {{ $DEPENDENT_RELATION[item.relation] }}
+    </template>
+    <template #[`item.socialInsuranceStatus`]="{ item }">
+      {{ $SOCIAL_INSURANCE_STATUS[item.socialInsuranceStatus] }}
     </template>
   </g-data-table>
 </template>

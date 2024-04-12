@@ -1,6 +1,8 @@
 <script>
 import { doc, onSnapshot } from 'firebase/firestore'
 import GDetailCardMember from '~/components/organisms/GDetailCardMember.vue'
+import GDataTableDependents from '~/components/molecules/tables/GDataTableDependents.vue'
+import GManagerDependents from '~/components/organisms/GManagerDependents.vue'
 /**
  * ## page.companies.docId
  *
@@ -12,6 +14,8 @@ export default {
    ***************************************************************************/
   components: {
     GDetailCardMember,
+    GDataTableDependents,
+    GManagerDependents,
   },
   /***************************************************************************
    * ASYNCDATA
@@ -44,20 +48,25 @@ export default {
       />
     </v-col>
     <v-col cols="12" md="8">
-      <!-- <v-card>
-        <g-manager-members
-          label="会員"
-          :company-id="docId"
+      <v-card>
+        <v-card-title>被扶養者リスト</v-card-title>
+        <g-manager-dependents
+          label="被扶養者"
+          :member-id="docId"
           :dialog-props="{ 'max-width': 600 }"
           :table-props="{
             actions: ['edit', 'delete'],
           }"
         >
           <template #table="{ attrs, on }">
-            <g-data-table-members v-bind="attrs" v-on="on" />
+            <g-data-table-dependents
+              v-bind="attrs"
+              sort-by="healthInsuranceBranch"
+              v-on="on"
+            />
           </template>
-        </g-manager-members>
-      </v-card> -->
+        </g-manager-dependents>
+      </v-card>
     </v-col>
   </v-row>
 </template>
