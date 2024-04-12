@@ -12,6 +12,8 @@ export default {
     cols: { type: Object, default: () => ({}), required: false },
     /* A function used to different process from default submit. */
     customSubmit: { type: Function, default: undefined, required: false },
+    /* An object used to initialize the model when edit-mode is 'REGIST'. */
+    defaultItem: { type: Object, default: () => ({}), required: false },
     /* An object provided to the dialog component. */
     dialogProps: { type: Object, default: () => ({}), required: false },
     /* An array provided to the table component. */
@@ -67,7 +69,7 @@ export default {
   watch: {
     dialog(v) {
       if (!v) {
-        this.model.initialize()
+        this.model.initialize(this.defaultItem)
         this.editMode = 'REGIST'
       }
     },
@@ -114,19 +116,14 @@ export default {
       this.model.initialize(item)
       this.dialog = true
     },
-    onClickRegist() {
-      this.editMode = 'REGIST'
-      this.model.initialize()
-      this.dialog = true
-    },
     onClickSubmit() {
       this.submit(this.editMode)
     },
     setModel() {
       if (!this.parentId) {
-        this.model = this[`$${this.modelId}`]()
+        this.model = this[`$${this.modelId}`](this.defaultItem)
       } else {
-        this.model = this[`$${this.modelId}`](this.parentId)
+        this.model = this[`$${this.modelId}`](this.parentId, this.defaultItem)
       }
     },
     async submit(mode) {

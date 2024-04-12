@@ -1,9 +1,7 @@
 <script>
-import GSimpleCardMember from '~/components/molecules/cards/GSimpleCardMember.vue'
-import GDataIterator from '~/components/molecules/tables/GDataIterator.vue'
-import GMembers from '~/components/controllers/GMembers.vue'
+import GManagerMembers from '~/components/organisms/GManagerMembers.vue'
 /**
- * ### pages.companies.index
+ * ### pages.members.index
  * @author shisyamo4131
  */
 export default {
@@ -11,9 +9,7 @@ export default {
    * COMPONENTS
    ***************************************************************************/
   components: {
-    GDataIterator,
-    GMembers,
-    GSimpleCardMember,
+    GManagerMembers,
   },
   /***************************************************************************
    * METHODS
@@ -30,29 +26,17 @@ export default {
 </script>
 
 <template>
-  <g-members v-slot="{ items }">
-    <g-data-iterator :items="items" hide-default-footer :items-per-page="-1">
-      <template #default="props">
-        <v-container fluid>
-          <v-row>
-            <v-col
-              v-for="(item, index) of props.items"
-              :key="index"
-              cols="12"
-              sm="6"
-              md="4"
-              lg="3"
-            >
-              <g-simple-card-member
-                v-bind="item"
-                @click:detail="goToDetail($event)"
-              />
-            </v-col>
-          </v-row>
-        </v-container>
-      </template>
-    </g-data-iterator>
-  </g-members>
+  <g-manager-members
+    label="会員"
+    :dialog-props="{ 'max-width': 600 }"
+    :table-props="{
+      actions: ['edit', 'delete', 'detail'],
+      'hide-pagination': true,
+      cols: { cols: 12, sm: 6, md: 4, lg: 3 },
+    }"
+    @click:detail="goToDetail($event.docId)"
+  >
+  </g-manager-members>
 </template>
 
 <style></style>

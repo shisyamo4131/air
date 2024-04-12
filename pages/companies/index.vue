@@ -1,5 +1,4 @@
 <script>
-import GDataTableCompanies from '~/components/molecules/tables/GDataTableCompanies.vue'
 import GManagerCompanies from '~/components/organisms/GManagerCompanies.vue'
 /**
  * ### pages.companies.index
@@ -11,7 +10,6 @@ export default {
    ***************************************************************************/
   components: {
     GManagerCompanies,
-    GDataTableCompanies,
   },
   /***************************************************************************
    * METHODS
@@ -38,9 +36,6 @@ export default {
     }"
     @click:detail="goToDetail($event.docId)"
   >
-    <template #table="{ attrs, on }">
-      <g-data-table-companies v-bind="attrs" v-on="on" />
-    </template>
   </g-manager-companies>
 </template>
 

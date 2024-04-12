@@ -1,4 +1,5 @@
 <script>
+import GDataTableMembers from '~/components/molecules/tables/GDataTableMembers.vue'
 import GDetailCardCompany from '~/components/organisms/GDetailCardCompany.vue'
 import GManagerMembers from '~/components/organisms/GManagerMembers.vue'
 /**
@@ -13,6 +14,7 @@ export default {
   components: {
     GDetailCardCompany,
     GManagerMembers,
+    GDataTableMembers,
   },
   /***************************************************************************
    * ASYNCDATA
@@ -42,14 +44,20 @@ export default {
       />
     </v-col>
     <v-col cols="12" md="8">
-      <g-manager-members
-        label="会員"
-        :company-id="docId"
-        :dialog-props="{ 'max-width': 600 }"
-        :table-props="{
-          actions: ['edit', 'delete'],
-        }"
-      />
+      <v-card>
+        <g-manager-members
+          label="会員"
+          :company-id="docId"
+          :dialog-props="{ 'max-width': 600 }"
+          :table-props="{
+            actions: ['edit', 'delete'],
+          }"
+        >
+          <template #table="{ attrs, on }">
+            <g-data-table-members v-bind="attrs" v-on="on" />
+          </template>
+        </g-manager-members>
+      </v-card>
     </v-col>
   </v-row>
 </template>

@@ -2,6 +2,7 @@
 import GDialogEditor from '../molecules/dialogs/GDialogEditor.vue'
 import GInputCompany from '../molecules/inputs/GInputCompany.vue'
 import GTextFieldSearch from '../molecules/inputs/GTextFieldSearch.vue'
+import AIconRegist from '../atoms/icons/AIconRegist.vue'
 import GCollectionController from './GCollectionController.vue'
 import GSimpleCardCompany from '~/components/molecules/cards/GSimpleCardCompany.vue'
 import GDataIterator from '~/components/molecules/tables/GDataIterator.vue'
@@ -16,6 +17,7 @@ export default {
     GInputCompany,
     GCollectionController,
     GTextFieldSearch,
+    AIconRegist,
   },
   /***************************************************************************
    * PROPS

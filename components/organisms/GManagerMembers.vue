@@ -1,4 +1,5 @@
 <script>
+import { where } from 'firebase/firestore'
 import AIconRegist from '../atoms/icons/AIconRegist.vue'
 import GDialogEditor from '../molecules/dialogs/GDialogEditor.vue'
 import GInputMember from '../molecules/inputs/GInputMember.vue'
@@ -23,7 +24,7 @@ export default {
    * PROPS
    ***************************************************************************/
   props: {
-    companyId: { type: String, default: undefined, required: false },
+    companyId: { type: String, default: '', required: false },
   },
   /***************************************************************************
    * DATA
@@ -40,7 +41,13 @@ export default {
   watch: {
     companyId: {
       handler() {
-        this.items = this.listener.subscribe()
+        if (this.companyId) {
+          this.items = this.listener.subscribe(undefined, [
+            where('companyId', '==', this.companyId),
+          ])
+        } else {
+          this.items = this.listener.subscribe()
+        }
       },
       immediate: true,
     },
@@ -59,6 +66,7 @@ export default {
     v-bind="$attrs"
     :items="items"
     model-id="Member"
+    :default-item="{ companyId }"
     v-on="$listeners"
   >
     <template #default="{ model, dialog, search, table }">
@@ -71,7 +79,6 @@ export default {
             </v-btn>
           </template>
           <template #form>
-            <!-- -->
             <g-input-member v-bind="model.attrs" v-on="model.on" />
           </template>
         </g-dialog-editor>
