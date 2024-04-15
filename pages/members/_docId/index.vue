@@ -44,7 +44,7 @@ export default {
       <g-detail-card-member
         :item="member"
         :card-props="{ actions: ['edit', 'delete'] }"
-        @submit:delete="$router.replace(`/memberrs`)"
+        @submit:delete="$router.replace(`/members`)"
       />
     </v-col>
     <v-col cols="12" md="8">

@@ -1,7 +1,9 @@
 <script>
+import { getDownloadURL, ref } from 'firebase/storage'
 import GInputMember from '../molecules/inputs/GInputMember.vue'
 import GDialogEditor from '../molecules/dialogs/GDialogEditor.vue'
 import GActionCard from '../molecules/cards/GActionCard.vue'
+import GFileUploader from './GFileUploader.vue'
 import GDocumentController from '~/components/organisms/GDocumentController.vue'
 export default {
   /***************************************************************************
@@ -12,6 +14,7 @@ export default {
     GInputMember,
     GDialogEditor,
     GDocumentController,
+    GFileUploader,
   },
   /***************************************************************************
    * PROPS
@@ -24,6 +27,12 @@ export default {
    ***************************************************************************/
   data() {
     return {
+      dialog: {
+        insurance: false,
+      },
+      src: {
+        insurance: null,
+      },
       tab: null,
     }
   },
@@ -42,6 +51,41 @@ export default {
       if (!this.item.birth) return undefined
       const result = this.$dayjs().diff(this.item.birth, 'year')
       return result
+    },
+  },
+  /***************************************************************************
+   * WATCH
+   ***************************************************************************/
+  watch: {
+    item: {
+      handler(v) {
+        if (!v) return
+        if (!(v?.docId || undefined)) return
+        this.loadImage()
+      },
+      immediate: true,
+      deep: true,
+    },
+  },
+  /***************************************************************************
+   * METHODS
+   ***************************************************************************/
+  methods: {
+    async loadImage() {
+      const fullPath = `Images/Members/${this.item.docId}/insurance.jpg`
+      const imageRef = ref(this.$storage, fullPath)
+      this.src.insurance = await getDownloadURL(imageRef).catch((err) => {
+        switch (err.code) {
+          case 'storage/object-not-found':
+            console.error('File does not exist.')
+            break
+          default:
+            console.error(err)
+        }
+      })
+    },
+    async onUploadComplete() {
+      await this.loadImage()
     },
   },
 }
@@ -67,6 +111,46 @@ export default {
     <g-action-card v-bind="props.card.attrs" v-on="props.card.on">
       <v-card-title class="justify-space-between">
         {{ item.fullName }}
+        <v-dialog v-model="dialog.insurance" max-width="360">
+          <template #activator="{ attrs, on }">
+            <v-icon v-bind="attrs" v-on="on">mdi-card-bulleted-outline</v-icon>
+          </template>
+          <v-card>
+            <v-container
+              class="d-flex flex-column justify-space-between align-center"
+            >
+              <v-img v-if="src.insurance" :src="src.insurance" />
+              <v-card v-else outlined style="width: 100%; height: 180px">
+                <v-container
+                  class="d-flex justify-center align-center"
+                  style="height: 100%"
+                >
+                  <h1>NO IMAGE</h1>
+                </v-container>
+              </v-card>
+            </v-container>
+            <v-container>
+              <g-file-uploader
+                v-slot="{ attrs, on, uploader }"
+                accept="image/*"
+                compress
+                :compress-options="{ maxSizeMB: 2 }"
+                create-thumb
+                :path="`Images/Members/${item.docId}`"
+                file-name="insurance"
+                @upload:complete="onUploadComplete"
+              >
+                <v-file-input v-bind="attrs" v-on="on">
+                  <template #append-outer>
+                    <v-btn icon v-bind="uploader.attrs" v-on="uploader.on">
+                      <v-icon>mdi-upload-box-outline</v-icon>
+                    </v-btn>
+                  </template>
+                </v-file-input>
+              </g-file-uploader>
+            </v-container>
+          </v-card>
+        </v-dialog>
       </v-card-title>
       <v-card-subtitle>{{ item.fullNameKana }}</v-card-subtitle>
       <v-list>

@@ -1,7 +1,9 @@
 const { onDocumentDeleted } = require('firebase-functions/v2/firestore')
 const { getFirestore } = require('firebase-admin/firestore')
+const { getStorage } = require('firebase-admin/storage')
 const { logger } = require('firebase-functions/v2')
 const firestore = getFirestore()
+const storage = getStorage()
 
 /**
  * ### exports.deleteMember
@@ -18,6 +20,7 @@ exports.deleteMember = onDocumentDeleted('Members/{docId}', async (event) => {
     logger.error(`[member.js] An error has occured at 'deleteDependents'.`)
     throw new Error(err)
   })
+  await deleteImages(docId)
 })
 
 /**
@@ -34,4 +37,10 @@ async function deleteDependents(memberId) {
   if (querySnapshot.empty) return
   const promises = querySnapshot.docs.map((doc) => doc.ref.delete())
   await Promise.all(promises)
+}
+
+async function deleteImages(memberId) {
+  const directory = `Images/Members/${memberId}`
+  const fileBucket = storage.bucket()
+  await fileBucket.deleteFiles({ prefix: directory })
 }

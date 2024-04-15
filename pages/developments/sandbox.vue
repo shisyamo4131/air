@@ -1,18 +1,41 @@
 <template>
-  <div>
-    <g-data-iterator :items="$store.state.companies.items" :actions="['edit']">
-      <template #col="{ item, actions }">
-        <g-simple-card-company :item="item" :actions="actions" />
-      </template>
-    </g-data-iterator>
-  </div>
+  <v-card>
+    <v-card-title>Upload File</v-card-title>
+    <v-container fluid>
+      <g-file-uploader
+        accept="image/*"
+        path="Members/Cards"
+        file-name="test"
+        create-thumb
+        compress
+        :compress-options="{ maxSizeMB: 3 }"
+      >
+        <template #default="{ attrs, on, uploader }">
+          <v-file-input v-bind="attrs" v-on="on" />
+          <v-btn v-bind="uploader.attrs" v-on="uploader.on">OK</v-btn>
+        </template>
+      </g-file-uploader>
+      <v-text-field v-model="fileName" />
+    </v-container>
+    <v-card-actions> </v-card-actions>
+  </v-card>
 </template>
 
 <script>
-import GSimpleCardCompany from '~/components/molecules/cards/GSimpleCardCompany.vue'
-import GDataIterator from '~/components/molecules/tables/GDataIterator.vue'
+import GFileUploader from '~/components/organisms/GFileUploader.vue'
 export default {
-  components: { GDataIterator, GSimpleCardCompany },
+  components: { GFileUploader },
+  data() {
+    return {
+      file: null,
+      fileName: null,
+    }
+  },
+  methods: {
+    test() {
+      console.log('OK')
+    },
+  },
 }
 </script>
 

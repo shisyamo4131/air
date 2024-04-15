@@ -33,6 +33,9 @@
     },
     "hosting": {
       "port": 5000
+    },
+    "storage": {
+      "port": 9199
     }
   },
   "functions": [
@@ -46,5 +49,8 @@
         "firebase-debug.*.log"
       ]
     }
-  ]
+  ],
+  "storage": {
+    "rules": "storage.rules"
+  }
 }
