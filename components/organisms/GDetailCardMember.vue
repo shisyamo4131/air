@@ -59,9 +59,17 @@ export default {
   watch: {
     item: {
       handler(v) {
-        if (!v) return
-        if (!(v?.docId || undefined)) return
-        this.loadImage()
+        if (!(v?.insuranceCardFile || undefined)) return
+        const imageRef = ref(this.$storage, v.insuranceCardFile)
+        getDownloadURL(imageRef)
+          .then((downloadURL) => {
+            this.src.insurance = downloadURL
+          })
+          .catch((err) => {
+            // eslint-disable-next-line
+            console.error(err)
+            this.src.insurance = null
+          })
       },
       immediate: true,
       deep: true,
@@ -71,21 +79,12 @@ export default {
    * METHODS
    ***************************************************************************/
   methods: {
-    async loadImage() {
-      const fullPath = `Images/Members/${this.item.docId}/insurance.jpg`
-      const imageRef = ref(this.$storage, fullPath)
-      this.src.insurance = await getDownloadURL(imageRef).catch((err) => {
-        switch (err.code) {
-          case 'storage/object-not-found':
-            console.error('File does not exist.')
-            break
-          default:
-            console.error(err)
-        }
-      })
-    },
-    async onUploadComplete() {
-      await this.loadImage()
+    onUploadComplete(event) {
+      // this.src.insurance = event.url
+      const model = this.$Member(this.item)
+      model.insuranceCardFile = event.src
+      model.insuranceCardFileThumb = event.thumb
+      model.update()
     },
   },
 }
@@ -132,10 +131,6 @@ export default {
             <v-container>
               <g-file-uploader
                 v-slot="{ attrs, on, uploader }"
-                accept="image/*"
-                compress
-                :compress-options="{ maxSizeMB: 2 }"
-                create-thumb
                 :path="`Images/Members/${item.docId}`"
                 file-name="insurance"
                 @upload:complete="onUploadComplete"

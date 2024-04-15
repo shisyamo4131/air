@@ -7,15 +7,15 @@ export default {
    ***************************************************************************/
   props: {
     accept: { type: String, default: 'image/*', required: false },
-    compress: { type: Boolean, default: false, required: false },
     compressOptions: {
       type: Object,
-      default: () => ({ maxSizeMB: 1 }),
+      default: () => ({ maxSizeMB: 2 }),
       required: false,
     },
-    createThumb: { type: Boolean, default: false, required: false },
     fileName: { type: undefined, required: true },
+    noCompress: { type: Boolean, default: false, required: false },
     path: { type: undefined, required: true },
+    thumb: { type: String, default: 'thumb', required: false },
   },
   /***************************************************************************
    * DATA
@@ -57,23 +57,27 @@ export default {
     async upload() {
       if (!this.validator()) return
       try {
+        const result = {
+          src: `${this.path}/${this.computedFileName}`,
+          thumb: `${this.path}/${this.thumb}/${this.computedFileName}`,
+        }
         this.loading = true
-        const uploadFile = this.compress
-          ? await this.compressImage(this.options)
-          : this.file
+        const uploadFile = this.noCompress
+          ? this.file
+          : await this.compressImage(this.options)
         await this.$fileUploader(
           uploadFile,
           `${this.path}/${this.computedFileName}`
         )
-        if (this.createThumb) {
+        if (this.thumb) {
           const thumbFile = await this.compressImage({ maxSizeMB: 0.2 })
           await this.$fileUploader(
             thumbFile,
-            `${this.path}/thumb_${this.computedFileName}`
+            `${this.path}/${this.thumb}/${this.computedFileName}`
           )
         }
         this.file = null
-        this.$emit('upload:complete')
+        this.$emit('upload:complete', result)
       } catch (err) {
         // eslint-disable-next-line
         console.error(err)

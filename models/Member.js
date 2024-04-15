@@ -27,6 +27,8 @@ const props = {
       required: false,
     },
     healthInsuranceNumber: { type: String, default: '', required: false },
+    insuranceCardFile: { type: String, default: '', required: false },
+    insuranceCardFileThumb: { type: String, default: '', required: false },
     job: { type: String, default: '', required: false },
     jobName: { type: String, default: '', required: false },
     hasReferee: { type: Boolean, default: false, required: false },
