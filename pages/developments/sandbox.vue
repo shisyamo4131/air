@@ -2,7 +2,7 @@
   <v-card>
     <v-card-title>Upload File</v-card-title>
     <v-container fluid>
-      <g-file-uploader
+      <a-file-uploader
         accept="image/*"
         path="Members/Cards"
         file-name="test"
@@ -14,7 +14,7 @@
           <v-file-input v-bind="attrs" v-on="on" />
           <v-btn v-bind="uploader.attrs" v-on="uploader.on">OK</v-btn>
         </template>
-      </g-file-uploader>
+      </a-file-uploader>
       <v-text-field v-model="fileName" />
     </v-container>
     <v-card-actions> </v-card-actions>
@@ -22,9 +22,9 @@
 </template>
 
 <script>
-import GFileUploader from '~/components/organisms/GFileUploader.vue'
+import AFileUploader from '~/components/atoms/AFileUploader.vue'
 export default {
-  components: { GFileUploader },
+  components: { AFileUploader },
   data() {
     return {
       file: null,

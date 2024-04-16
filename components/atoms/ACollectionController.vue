@@ -1,6 +1,6 @@
 <script>
 /**
- * ## GCollectionController
+ * ## ACollectionController
  * @author shisyamo4131
  */
 export default {

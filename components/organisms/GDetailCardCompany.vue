@@ -2,7 +2,7 @@
 import GInputCompany from '../molecules/inputs/GInputCompany.vue'
 import GDialogEditor from '../molecules/dialogs/GDialogEditor.vue'
 import GActionCard from '../molecules/cards/GActionCard.vue'
-import GDocumentController from '~/components/organisms/GDocumentController.vue'
+import ADocumentController from '~/components/atoms/ADocumentController.vue'
 export default {
   /***************************************************************************
    * COMPONENTS
@@ -11,13 +11,13 @@ export default {
     GActionCard,
     GInputCompany,
     GDialogEditor,
-    GDocumentController,
+    ADocumentController,
   },
 }
 </script>
 
 <template>
-  <g-document-controller
+  <a-document-controller
     v-slot="props"
     v-bind="$attrs"
     label="会社"
@@ -92,7 +92,7 @@ export default {
         </v-list-item>
       </v-list>
     </g-action-card>
-  </g-document-controller>
+  </a-document-controller>
 </template>
 
 <style></style>

@@ -3,8 +3,8 @@ import { getDownloadURL, ref } from 'firebase/storage'
 import GInputMember from '../molecules/inputs/GInputMember.vue'
 import GDialogEditor from '../molecules/dialogs/GDialogEditor.vue'
 import GActionCard from '../molecules/cards/GActionCard.vue'
-import GFileUploader from './GFileUploader.vue'
-import GDocumentController from '~/components/organisms/GDocumentController.vue'
+import AFileUploader from '../atoms/AFileUploader.vue'
+import ADocumentController from '~/components/atoms/ADocumentController.vue'
 export default {
   /***************************************************************************
    * COMPONENTS
@@ -13,8 +13,8 @@ export default {
     GActionCard,
     GInputMember,
     GDialogEditor,
-    GDocumentController,
-    GFileUploader,
+    ADocumentController,
+    AFileUploader,
   },
   /***************************************************************************
    * PROPS
@@ -91,7 +91,7 @@ export default {
 </script>
 
 <template>
-  <g-document-controller
+  <a-document-controller
     v-slot="props"
     v-bind="{ ...$attrs, item }"
     label="会員"
@@ -129,7 +129,7 @@ export default {
               </v-card>
             </v-container>
             <v-container>
-              <g-file-uploader
+              <a-file-uploader
                 v-slot="{ attrs, on, uploader }"
                 :path="`Images/Members/${item.docId}`"
                 file-name="insurance"
@@ -142,7 +142,7 @@ export default {
                     </v-btn>
                   </template>
                 </v-file-input>
-              </g-file-uploader>
+              </a-file-uploader>
             </v-container>
           </v-card>
         </v-dialog>
@@ -279,7 +279,7 @@ export default {
         {{ item.remarks }}
       </v-card-text>
     </g-action-card>
-  </g-document-controller>
+  </a-document-controller>
 </template>
 
 <style></style>

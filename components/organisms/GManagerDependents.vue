@@ -4,7 +4,7 @@ import GDialogEditor from '../molecules/dialogs/GDialogEditor.vue'
 import GTextFieldSearch from '../molecules/inputs/GTextFieldSearch.vue'
 import GInputDependent from '../molecules/inputs/GInputDependent.vue'
 import GSimpleCardDependent from '../molecules/cards/GSimpleCardDependent.vue'
-import GCollectionController from './GCollectionController.vue'
+import ACollectionController from '../atoms/ACollectionController.vue'
 import GDataIterator from '~/components/molecules/tables/GDataIterator.vue'
 export default {
   /***************************************************************************
@@ -14,7 +14,7 @@ export default {
     GDataIterator,
     GDialogEditor,
     AIconRegist,
-    GCollectionController,
+    ACollectionController,
     GTextFieldSearch,
     GInputDependent,
     GSimpleCardDependent,
@@ -59,7 +59,7 @@ export default {
 </script>
 
 <template>
-  <g-collection-controller
+  <a-collection-controller
     v-bind="$attrs"
     :items="items"
     model-id="Dependent"
@@ -89,7 +89,7 @@ export default {
         </g-data-iterator>
       </slot>
     </template>
-  </g-collection-controller>
+  </a-collection-controller>
 </template>
 
 <style></style>

@@ -3,7 +3,7 @@ import GDialogEditor from '../molecules/dialogs/GDialogEditor.vue'
 import GInputCompany from '../molecules/inputs/GInputCompany.vue'
 import GTextFieldSearch from '../molecules/inputs/GTextFieldSearch.vue'
 import AIconRegist from '../atoms/icons/AIconRegist.vue'
-import GCollectionController from './GCollectionController.vue'
+import ACollectionController from '../atoms/ACollectionController.vue'
 import GSimpleCardCompany from '~/components/molecules/cards/GSimpleCardCompany.vue'
 import GDataIterator from '~/components/molecules/tables/GDataIterator.vue'
 export default {
@@ -15,7 +15,7 @@ export default {
     GSimpleCardCompany,
     GDialogEditor,
     GInputCompany,
-    GCollectionController,
+    ACollectionController,
     GTextFieldSearch,
     AIconRegist,
   },
@@ -43,7 +43,7 @@ export default {
 </script>
 
 <template>
-  <g-collection-controller
+  <a-collection-controller
     v-bind="$attrs"
     :items="items"
     model-id="Company"
@@ -71,7 +71,7 @@ export default {
         </g-data-iterator>
       </slot>
     </template>
-  </g-collection-controller>
+  </a-collection-controller>
 </template>
 
 <style></style>
