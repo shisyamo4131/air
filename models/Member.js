@@ -95,6 +95,13 @@ export default class Member extends FireModel {
         },
         set(v) {},
       },
+      imageDir: {
+        enumerable: true,
+        get() {
+          return `Images/Members/${this.docId}`
+        },
+        set(v) {},
+      },
     })
   }
 
