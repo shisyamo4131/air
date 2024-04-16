@@ -131,7 +131,7 @@ export default {
             <v-container>
               <a-file-uploader
                 v-slot="{ attrs, on, uploader }"
-                :path="`Images/Members/${item.docId}`"
+                :save-dir="`Images/Members/${item.docId}`"
                 file-name="insurance"
                 @upload:complete="onUploadComplete"
               >

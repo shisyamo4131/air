@@ -286,13 +286,6 @@ export default class FireModel {
       params: docId ? [docId] : [],
     })
     try {
-      await this.beforeCreate().catch((err) => {
-        this.sendConsole({
-          message: 'An error has occured at beforeCreate() in create().',
-          type: 'error',
-        })
-        throw err
-      })
       const colRef = collection(this.#firestore, this.#collection)
       const docRef = docId ? doc(colRef, docId) : doc(colRef)
       this.docId = docRef.id
@@ -302,6 +295,13 @@ export default class FireModel {
       this.updateDate = this.dateJst.toLocaleString()
       this.uid = this.#auth?.currentUser?.uid || 'unknown'
       const { ...item } = this
+      await this.beforeCreate().catch((err) => {
+        this.sendConsole({
+          message: 'An error has occured at beforeCreate() in create().',
+          type: 'error',
+        })
+        throw err
+      })
       await runTransaction(this.#firestore, async (transaction) => {
         const autonumRef = doc(
           this.#firestore,
@@ -406,6 +406,12 @@ export default class FireModel {
           'update() should have docId as a property. Call fetch() first.'
         )
       }
+      const colRef = collection(this.#firestore, this.#collection)
+      const docRef = doc(colRef, this.docId)
+      this.updateAt = this.dateUtc.getTime()
+      this.updateDate = this.dateJst.toLocaleString()
+      this.uid = this.#auth?.currentUser?.uid || 'unknown'
+      const { createAt, createDate, ...item } = this
       await this.beforeUpdate().catch((err) => {
         this.sendConsole({
           message: 'An error has occured at beforeUpdate() in update().',
@@ -413,12 +419,6 @@ export default class FireModel {
         })
         throw err
       })
-      const colRef = collection(this.#firestore, this.#collection)
-      const docRef = doc(colRef, this.docId)
-      this.updateAt = this.dateUtc.getTime()
-      this.updateDate = this.dateJst.toLocaleString()
-      this.uid = this.#auth?.currentUser?.uid || 'unknown'
-      const { createAt, createDate, ...item } = this
       await updateDoc(docRef, item).catch((err) => {
         this.sendConsole({
           message: 'An error has occured at update().',
@@ -467,6 +467,8 @@ export default class FireModel {
             this.docId
         )
       }
+      const colRef = collection(this.#firestore, this.#collection)
+      const docRef = doc(colRef, this.docId)
       await this.beforeDelete().catch((err) => {
         this.sendConsole({
           message: 'An error has occured at beforeDelete() in delete().',
@@ -474,8 +476,6 @@ export default class FireModel {
         })
         throw err
       })
-      const colRef = collection(this.#firestore, this.#collection)
-      const docRef = doc(colRef, this.docId)
       await deleteDoc(docRef).catch((err) => {
         this.sendConsole({
           message: 'An error has occured at delete().',
