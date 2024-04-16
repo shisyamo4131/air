@@ -1,5 +1,5 @@
 <script>
-import { getDownloadURL, ref } from 'firebase/storage'
+import { doc, updateDoc } from 'firebase/firestore'
 import GInputMember from '../molecules/inputs/GInputMember.vue'
 import GDialogEditor from '../molecules/dialogs/GDialogEditor.vue'
 import GActionCard from '../molecules/cards/GActionCard.vue'
@@ -20,7 +20,7 @@ export default {
    * PROPS
    ***************************************************************************/
   props: {
-    item: { type: Object, required: true },
+    docId: { type: String, required: true },
   },
   /***************************************************************************
    * DATA
@@ -37,54 +37,24 @@ export default {
     }
   },
   /***************************************************************************
-   * COMPUTED
-   ***************************************************************************/
-  computed: {
-    company() {
-      const result = this.$Company()
-      result.initialize(
-        this.$store.getters['companies/get'](this.item.companyId)
-      )
-      return result
-    },
-    age() {
-      if (!this.item.birth) return undefined
-      const result = this.$dayjs().diff(this.item.birth, 'year')
-      return result
-    },
-  },
-  /***************************************************************************
-   * WATCH
-   ***************************************************************************/
-  watch: {
-    item: {
-      handler(v) {
-        if (!(v?.insuranceCardFile || undefined)) return
-        const imageRef = ref(this.$storage, v.insuranceCardFile)
-        getDownloadURL(imageRef)
-          .then((downloadURL) => {
-            this.src.insurance = downloadURL
-          })
-          .catch((err) => {
-            // eslint-disable-next-line
-            console.error(err)
-            this.src.insurance = null
-          })
-      },
-      immediate: true,
-      deep: true,
-    },
-  },
-  /***************************************************************************
    * METHODS
    ***************************************************************************/
   methods: {
-    onUploadComplete(event) {
-      // this.src.insurance = event.url
-      const model = this.$Member(this.item)
-      model.insuranceCardFile = event.src
-      model.insuranceCardFileThumb = event.thumb
-      model.update()
+    getAge(birth) {
+      if (!birth) return -1
+      const result = this.$dayjs().diff(birth, 'year')
+      return result
+    },
+    formatDate(date) {
+      if (!date) return '--年--月--日'
+      return this.$dayjs(date).format('YYYY年MM月DD日')
+    },
+    async onUploadComplete(event) {
+      const docRef = doc(this.$firestore, `Members/${this.docId}`)
+      await updateDoc(docRef, {
+        insuranceCardFile: event.url,
+        insuranceCardFileThumb: event.thumb,
+      })
     },
   },
 }
@@ -93,7 +63,8 @@ export default {
 <template>
   <a-document-controller
     v-slot="props"
-    v-bind="{ ...$attrs, item }"
+    v-bind="$attrs"
+    :doc-id="docId"
     label="会員"
     model-id="Member"
     v-on="$listeners"
@@ -104,12 +75,12 @@ export default {
       v-on="props.dialog.on"
     >
       <template #form>
-        <g-input-member v-bind="props.model.attrs" v-on="props.model.on" />
+        <g-input-member v-bind="props.editor.attrs" v-on="props.editor.on" />
       </template>
     </g-dialog-editor>
     <g-action-card v-bind="props.card.attrs" v-on="props.card.on">
       <v-card-title class="justify-space-between">
-        {{ item.fullName }}
+        {{ props.model.fullName }}
         <v-dialog v-model="dialog.insurance" max-width="360">
           <template #activator="{ attrs, on }">
             <v-icon v-bind="attrs" v-on="on">mdi-card-bulleted-outline</v-icon>
@@ -118,7 +89,10 @@ export default {
             <v-container
               class="d-flex flex-column justify-space-between align-center"
             >
-              <v-img v-if="src.insurance" :src="src.insurance" />
+              <v-img
+                v-if="props.model.insuranceCardFile"
+                :src="props.model.insuranceCardFile"
+              />
               <v-card v-else outlined style="width: 100%; height: 180px">
                 <v-container
                   class="d-flex justify-center align-center"
@@ -131,7 +105,7 @@ export default {
             <v-container>
               <a-file-uploader
                 v-slot="{ attrs, on, uploader }"
-                :save-dir="`Images/Members/${item.docId}`"
+                :directory="`Images/Members/${props.model.docId}`"
                 file-name="insurance"
                 @upload:complete="onUploadComplete"
               >
@@ -147,19 +121,18 @@ export default {
           </v-card>
         </v-dialog>
       </v-card-title>
-      <v-card-subtitle>{{ item.fullNameKana }}</v-card-subtitle>
+      <v-card-subtitle>{{ props.model.fullNameKana }}</v-card-subtitle>
       <v-list>
         <v-list-item two-line>
           <v-list-item-content>
             <v-list-item-title>
-              {{ company.name }}
+              {{
+                $store.getters['companies/get'](props.model.companyId)?.name ||
+                '...loading'
+              }}
             </v-list-item-title>
             <v-list-item-subtitle>
-              {{
-                item.registrationDate
-                  ? $dayjs(item.registrationDate).format('YYYY年MM月DD日 登録')
-                  : ''
-              }}
+              {{ `${formatDate(props.model.registrationDate)} 登録` }}
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -176,14 +149,10 @@ export default {
               <v-list-item-content>
                 <v-list-item-subtitle> 生年月日 </v-list-item-subtitle>
                 <v-list-item-title>
-                  {{
-                    item.birth
-                      ? $dayjs(item.birth).format('YYYY年MM月DD日')
-                      : ''
-                  }}
-                  ({{ `${age ? age : '--'}才` }})
+                  {{ `${formatDate(props.model.birth)}` }}
+                  ({{ `${getAge(props.model.birth)} 才` }})
                 </v-list-item-title>
-                <v-list-item-subtitle v-if="age >= 69" class="error--text">
+                <v-list-item-subtitle v-if="getAge >= 69" class="error--text">
                   <v-icon left small color="error">mdi-information</v-icon
                   >脱退年齢に近づいています。
                 </v-list-item-subtitle>
@@ -193,13 +162,13 @@ export default {
               <v-list-item-content>
                 <v-list-item-subtitle> 住所 </v-list-item-subtitle>
                 <v-list-item-subtitle>
-                  {{ `〒${item.zipcode}` }}
+                  {{ `〒${props.model.zipcode}` }}
                 </v-list-item-subtitle>
                 <v-list-item-title>
-                  {{ item.fullAddress }}
+                  {{ props.model.fullAddress }}
                 </v-list-item-title>
                 <v-list-item-subtitle>
-                  {{ item.address2 }}
+                  {{ props.model.address2 }}
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
@@ -207,7 +176,7 @@ export default {
               <v-list-item-content>
                 <v-list-item-subtitle> 連絡先 </v-list-item-subtitle>
                 <v-list-item-title>
-                  {{ item.mobile }}
+                  {{ props.model.mobile }}
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -215,7 +184,7 @@ export default {
               <v-list-item-content>
                 <v-list-item-subtitle> email </v-list-item-subtitle>
                 <v-list-item-title>
-                  {{ item.email }}
+                  {{ props.model.email }}
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -227,7 +196,7 @@ export default {
               <v-list-item-content>
                 <v-list-item-subtitle>基礎年金番号</v-list-item-subtitle>
                 <v-list-item-title>
-                  {{ item.basicPensionNumber }}
+                  {{ props.model.basicPensionNumber }}
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -235,7 +204,7 @@ export default {
               <v-list-item-content>
                 <v-list-item-subtitle>マイナンバー</v-list-item-subtitle>
                 <v-list-item-title>
-                  {{ item.myNumber }}
+                  {{ props.model.myNumber }}
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -243,12 +212,14 @@ export default {
               <v-list-item-content>
                 <v-list-item-subtitle>被保険者番号</v-list-item-subtitle>
                 <v-list-item-title
-                  v-if="item.socialInsuranceStatus === '2:completed'"
+                  v-if="props.model.socialInsuranceStatus === '2:completed'"
                 >
-                  {{ item.healthInsuranceNumber }}
+                  {{ props.model.healthInsuranceNumber }}
                 </v-list-item-title>
                 <v-list-item-title v-else>
-                  {{ $SOCIAL_INSURANCE_STATUS[item.socialInsuranceStatus] }}
+                  {{
+                    $SOCIAL_INSURANCE_STATUS[props.model.socialInsuranceStatus]
+                  }}
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -260,7 +231,7 @@ export default {
               <v-list-item-content>
                 <v-list-item-subtitle>職業</v-list-item-subtitle>
                 <v-list-item-title>
-                  {{ item.job }}
+                  {{ props.model.job }}
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -268,15 +239,15 @@ export default {
               <v-list-item-content>
                 <v-list-item-subtitle>屋号</v-list-item-subtitle>
                 <v-list-item-title>
-                  {{ item.jobName }}
+                  {{ props.model.jobName }}
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list>
         </v-tab-item>
       </v-tabs-items>
-      <v-card-text v-if="item.remarks">
-        {{ item.remarks }}
+      <v-card-text v-if="props.model.remarks">
+        {{ props.model.remarks }}
       </v-card-text>
     </g-action-card>
   </a-document-controller>

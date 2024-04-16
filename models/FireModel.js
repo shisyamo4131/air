@@ -571,6 +571,19 @@ export default class FireModel {
     return this.#items
   }
 
+  subscribeDoc(docId) {
+    this.unsubscribe()
+    // eslint-disable-next-line
+    console.info(
+      'Subscription of %s has been started.',
+      `${this.#collection}/${docId}`
+    )
+    const docRef = doc(this.#firestore, `${this.#collection}/${docId}`)
+    this.#listener = onSnapshot(docRef, (doc) => {
+      this.initialize(doc.data())
+    })
+  }
+
   /**
    * Unsubscribe to firestore documents.
    */

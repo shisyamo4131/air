@@ -4,10 +4,10 @@ export default {
    * PROPS
    ***************************************************************************/
   props: {
+    /* A string used to specified the document. */
+    docId: { type: String, required: true },
     /* A function used to different process from default submit. */
     customSubmit: { type: Function, default: undefined, required: false },
-    /* A object controlled by this component. */
-    item: { type: Object, required: true },
     /* A string provided to dialog component. */
     label: { type: String, default: undefined, required: false },
     /* Specifies the model-id that controlled by this component. */
@@ -24,6 +24,8 @@ export default {
     return {
       /* An boolean to control the dialog. */
       dialog: false,
+      /* An object extended by the FireModel for editor. */
+      editModel: null,
       /* An boolean used to indicate that processing is in progress. */
       loading: false,
       /* The model controlled by this component. */
@@ -34,58 +36,61 @@ export default {
    * COMPUTED
    ***************************************************************************/
   computed: {
-    attrs() {
-      return {
-        ...JSON.parse(JSON.stringify(this.model)),
-      }
-    },
-    on() {
-      const result = {}
-      Object.keys(this.model).forEach((key) => {
+    /* Returns definitions of update events for all properties of the edit-model. */
+    editorOn() {
+      return Object.keys(this.editModel).reduce((result, key) => {
         result[`update:${key}`] = ($event) => {
-          this.model.initialize({ ...this.model, [key]: $event })
+          this.editModel[key] = $event
         }
-      })
-      return result
+        return result
+      }, {})
     },
   },
   /***************************************************************************
    * WATCH
    ***************************************************************************/
   watch: {
+    /* Initialize the edit-model if dialog closed. (May not be necessary.) */
     dialog(v) {
       if (!v) {
-        this.model.initialize(this.item)
+        this.editModel.initialize(this.model)
       }
     },
-    item: {
-      handler(v) {
-        this.setModel()
+  },
+  /***************************************************************************
+   * METHODS
+   ***************************************************************************/
+  created() {
+    /* Watch the model-id, parent-id, doc-id to define the model and subscribe the document. */
+    this.$watch(
+      () => ({
+        modelId: this.modelId,
+        parentId: this.parentId,
+        docId: this.docId,
+      }),
+      (newVal, oldVal) => {
+        if (JSON.stringify(newVal) === JSON.stringify(oldVal)) return
+        if (!newVal.modelId) return
+        if (!newVal.docId) return
+        if (!newVal.parentId) {
+          this.model = this[`$${newVal.modelId}`]()
+          this.editModel = this[`$${newVal.modelId}`]()
+        } else {
+          this.model = this[`$${newVal.modelId}`](newVal.parentId)
+          this.editModel = this[`$${newVal.modelId}`](newVal.parentId)
+        }
+        this.model.subscribeDoc(newVal.docId)
       },
-      immediate: true,
-      deep: true,
-    },
-    modelId: {
-      handler() {
-        this.setModel()
-      },
-      immediate: true,
-    },
-    parentId: {
-      handler() {
-        this.setModel()
-      },
-      immediate: true,
-      deep: true,
-    },
+      { immediate: true }
+    )
   },
   /***************************************************************************
    * METHODS
    ***************************************************************************/
   methods: {
     async defaultSubmit(mode) {
-      if (mode === 'UPDATE') await this.model.update()
-      if (mode === 'DELETE') await this.model.delete()
+      if (mode === 'UPDATE') await this.editModel.update()
+      if (mode === 'DELETE') await this.editModel.delete()
     },
     onClickCancel() {
       this.dialog = false
@@ -96,17 +101,11 @@ export default {
       this.submit('DELETE')
     },
     onClickEdit() {
+      this.editModel.initialize(this.model)
       this.dialog = true
     },
     onClickSubmit() {
       this.submit('UPDATE')
-    },
-    setModel() {
-      if (!this.parentId) {
-        this.model = this[`$${this.modelId}`](this.item)
-      } else {
-        this.model = this[`$${this.modelId}`](this.parentId, this.item)
-      }
     },
     async submit(mode) {
       try {
@@ -146,15 +145,13 @@ export default {
             'click:submit': this.onClickSubmit,
           },
         },
-        model: {
-          attrs: { ...this.attrs, editMode: 'UPDATE' },
-          on: this.on,
+        editor: {
+          attrs: { ...this.editModel, editMode: 'UPDATE' },
+          on: this.editorOn,
         },
+        model: this.model,
         card: {
-          attrs: {
-            item: this.item,
-            ...this.cardProps,
-          },
+          attrs: { item: this.model, ...this.cardProps },
           on: {
             'click:edit': this.onClickEdit,
             'click:delete': this.onClickDelete,

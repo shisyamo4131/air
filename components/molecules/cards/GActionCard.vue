@@ -5,7 +5,7 @@ import AIconEdit from '~/components/atoms/icons/AIconEdit.vue'
 /**
  * ## GActionCard
  * VCardActionsに編集ボタン、削除ボタン、詳細ボタンを配置可能なカードコンポーネントです。
- * このコンポーネントを使用する親コンポーネントがそもそも所有する
+ * このコンポーネントを使用する親コンポーネントがそもそも所有する（はずの）
  * itemをそのまま受け取り、かつslots.defaultでプロパティとして提供しています。
  * 少し違和感のある構成ですが、このコンポーネントがemitするイベントの
  * 引数にitemを含めることにメリットがあります。

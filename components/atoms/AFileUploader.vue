@@ -14,7 +14,7 @@ export default {
     },
     fileName: { type: undefined, required: true },
     noCompress: { type: Boolean, default: false, required: false },
-    saveDir: { type: undefined, required: true },
+    directory: { type: undefined, required: true },
     thumb: { type: String, default: 'thumb', required: false },
   },
   /***************************************************************************
@@ -58,22 +58,24 @@ export default {
       if (!this.validator()) return
       try {
         const result = {
-          src: `${this.saveDir}/${this.computedFileName}`,
-          thumb: `${this.saveDir}/${this.thumb}/${this.computedFileName}`,
+          // src: `${this.directory}/${this.computedFileName}`,
+          // thumb: `${this.directory}/${this.thumb}/${this.computedFileName}`,
+          url: '',
+          thumb: '',
         }
         this.loading = true
         const uploadFile = this.noCompress
           ? this.file
           : await this.compressImage(this.options)
-        await this.$fileUploader(
+        result.url = await this.$fileUploader(
           uploadFile,
-          `${this.saveDir}/${this.computedFileName}`
+          `${this.directory}/${this.computedFileName}`
         )
         if (this.thumb) {
           const thumbFile = await this.compressImage({ maxSizeMB: 0.2 })
-          await this.$fileUploader(
+          result.thumb = await this.$fileUploader(
             thumbFile,
-            `${this.saveDir}/${this.thumb}/${this.computedFileName}`
+            `${this.directory}/${this.thumb}/${this.computedFileName}`
           )
         }
         this.file = null
@@ -87,17 +89,17 @@ export default {
       }
     },
     validator() {
-      if (!this.saveDir || !this.fileName) {
+      if (!this.directory || !this.fileName) {
         // eslint-disable-next-line
-        console.error('Parameters saveDir and file-name are required.')
+        console.error('Parameters directory and file-name are required.')
         return false
       }
       if (
-        typeof this.saveDir !== 'string' ||
+        typeof this.directory !== 'string' ||
         typeof this.fileName !== 'string'
       ) {
         // eslint-disable-next-line
-        console.error('Parameters saveDir and file-name must be string.')
+        console.error('Parameters directory and file-name must be string.')
         return false
       }
       return true
@@ -120,7 +122,7 @@ export default {
         uploader: {
           attrs: {
             disabled:
-              !this.fileName || !this.saveDir || !this.file || this.loading,
+              !this.fileName || !this.directory || !this.file || this.loading,
             loading: this.loading,
           },
           on: { click: this.upload },
