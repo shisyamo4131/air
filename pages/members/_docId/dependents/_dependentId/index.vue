@@ -1,5 +1,5 @@
 <script>
-import GDetailCardDependent from '~/components/organisms/GDetailCardDependent.vue'
+import GDocumentControllerDependent from '~/components/organisms/GDocumentControllerDependent.vue'
 /**
  * ## page.members.docId.dependents.dependentId
  *
@@ -9,7 +9,7 @@ export default {
   /***************************************************************************
    * COMPONENTS
    ***************************************************************************/
-  components: { GDetailCardDependent },
+  components: { GDocumentControllerDependent },
   /***************************************************************************
    * ASYNCDATA
    ***************************************************************************/
@@ -24,7 +24,7 @@ export default {
 <template>
   <v-row>
     <v-col cols="12" md="4">
-      <g-detail-card-dependent
+      <g-document-controller-dependent
         :doc-id="dependentId"
         :member-id="memberId"
         :card-props="{ actions: ['edit', 'delete'] }"

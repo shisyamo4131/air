@@ -1,6 +1,6 @@
 <script>
 import GDataTableMembers from '~/components/molecules/tables/GDataTableMembers.vue'
-import GDetailCardCompany from '~/components/organisms/GDetailCardCompany.vue'
+import GDocumentControllerCompany from '~/components/organisms/GDocumentControllerCompany.vue'
 import GManagerMembers from '~/components/organisms/GManagerMembers.vue'
 /**
  * ## page.companies.docId
@@ -12,7 +12,7 @@ export default {
    * COMPONENTS
    ***************************************************************************/
   components: {
-    GDetailCardCompany,
+    GDocumentControllerCompany,
     GManagerMembers,
     GDataTableMembers,
   },
@@ -29,7 +29,7 @@ export default {
 <template>
   <v-row>
     <v-col cols="12" md="4">
-      <g-detail-card-company
+      <g-document-controller-company
         :doc-id="docId"
         :card-props="{ actions: ['edit', 'delete'] }"
         @submit:delete="$router.replace(`/companies`)"
