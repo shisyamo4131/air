@@ -104,6 +104,7 @@ export default {
     onClickDelete() {
       const answer = window.confirm('削除してもよろしいですか？')
       if (!answer) return
+      this.editModel.initialize(this.model)
       this.submit('DELETE')
     },
     onClickEdit() {

@@ -3,7 +3,7 @@ import { doc, updateDoc } from 'firebase/firestore'
 import GInputMember from '../molecules/inputs/GInputMember.vue'
 import GDialogEditor from '../molecules/dialogs/GDialogEditor.vue'
 import GActionCard from '../molecules/cards/GActionCard.vue'
-import AFileUploader from '../atoms/AFileUploader.vue'
+import GUploaderInsuranceCard from '../molecules/uploaders/GUploaderInsuranceCard.vue'
 import ADocumentController from '~/components/atoms/ADocumentController.vue'
 export default {
   /***************************************************************************
@@ -14,7 +14,7 @@ export default {
     GInputMember,
     GDialogEditor,
     ADocumentController,
-    AFileUploader,
+    GUploaderInsuranceCard,
   },
   /***************************************************************************
    * PROPS
@@ -85,40 +85,11 @@ export default {
           <template #activator="{ attrs, on }">
             <v-icon v-bind="attrs" v-on="on">mdi-card-bulleted-outline</v-icon>
           </template>
-          <v-card>
-            <v-container
-              class="d-flex flex-column justify-space-between align-center"
-            >
-              <v-img
-                v-if="props.model.insuranceCardFile"
-                :src="props.model.insuranceCardFile"
-              />
-              <v-card v-else outlined style="width: 100%; height: 180px">
-                <v-container
-                  class="d-flex justify-center align-center"
-                  style="height: 100%"
-                >
-                  <h1>NO IMAGE</h1>
-                </v-container>
-              </v-card>
-            </v-container>
-            <v-container>
-              <a-file-uploader
-                v-slot="{ attrs, on, uploader }"
-                :directory="`Images/Members/${props.model.docId}`"
-                file-name="insurance"
-                @upload:complete="onUploadComplete"
-              >
-                <v-file-input v-bind="attrs" v-on="on">
-                  <template #append-outer>
-                    <v-btn icon v-bind="uploader.attrs" v-on="uploader.on">
-                      <v-icon>mdi-upload-box-outline</v-icon>
-                    </v-btn>
-                  </template>
-                </v-file-input>
-              </a-file-uploader>
-            </v-container>
-          </v-card>
+          <g-uploader-insurance-card
+            :directory="props.model.imageDir"
+            :src="props.model.insuranceCardFile"
+            @upload:complete="onUploadComplete"
+          />
         </v-dialog>
       </v-card-title>
       <v-card-subtitle>{{ props.model.fullNameKana }}</v-card-subtitle>
