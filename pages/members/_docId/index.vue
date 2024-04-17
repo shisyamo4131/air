@@ -43,8 +43,11 @@ export default {
           :member-id="docId"
           :dialog-props="{ 'max-width': 600 }"
           :table-props="{
-            actions: ['edit', 'delete'],
+            actions: ['edit', 'delete', 'detail'],
           }"
+          @click:detail="
+            $router.push(`/members/${docId}/dependents/${$event.docId}`)
+          "
         >
           <template #table="{ attrs, on }">
             <g-data-table-dependents
