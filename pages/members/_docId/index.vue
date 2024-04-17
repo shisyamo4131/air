@@ -1,5 +1,4 @@
 <script>
-import { doc, onSnapshot } from 'firebase/firestore'
 import GDetailCardMember from '~/components/organisms/GDetailCardMember.vue'
 import GDataTableDependents from '~/components/molecules/tables/GDataTableDependents.vue'
 import GManagerDependents from '~/components/organisms/GManagerDependents.vue'
@@ -20,20 +19,9 @@ export default {
   /***************************************************************************
    * ASYNCDATA
    ***************************************************************************/
-  asyncData({ app, route }) {
+  asyncData({ route }) {
     const docId = route.params.docId
-    const member = app.$Member()
-    const docRef = doc(app.$firestore, `Members/${docId}`)
-    const listener = onSnapshot(docRef, (doc) => {
-      member.initialize(doc.data())
-    })
-    return { docId, member, listener }
-  },
-  /***************************************************************************
-   * DESTROYED
-   ***************************************************************************/
-  destroyed() {
-    if (this.listener) this.listener()
+    return { docId }
   },
 }
 </script>
@@ -43,7 +31,6 @@ export default {
     <v-col cols="12" md="4">
       <g-detail-card-member
         :doc-id="docId"
-        :item="member"
         :card-props="{ actions: ['edit', 'delete'] }"
         @submit:delete="$router.replace(`/members`)"
       />

@@ -13,6 +13,12 @@ export default {
     GDialogEditor,
     ADocumentController,
   },
+  /***************************************************************************
+   * PROPS
+   ***************************************************************************/
+  props: {
+    docId: { type: String, required: true },
+  },
 }
 </script>
 
@@ -20,6 +26,7 @@ export default {
   <a-document-controller
     v-slot="props"
     v-bind="$attrs"
+    :doc-id="docId"
     label="会社"
     model-id="Company"
     v-on="$listeners"
@@ -30,23 +37,23 @@ export default {
       v-on="props.dialog.on"
     >
       <template #form>
-        <g-input-company v-bind="props.model.attrs" v-on="props.model.on" />
+        <g-input-company v-bind="props.editor.attrs" v-on="props.editor.on" />
       </template>
     </g-dialog-editor>
-    <g-action-card v-slot="item" v-bind="props.card.attrs" v-on="props.card.on">
+    <g-action-card v-bind="props.card.attrs" v-on="props.card.on">
       <v-card-title class="justify-space-between">
-        {{ item.name }}
+        {{ props.model.name }}
       </v-card-title>
-      <v-card-subtitle>{{ item.abbrKana }}</v-card-subtitle>
+      <v-card-subtitle>{{ props.model.abbrKana }}</v-card-subtitle>
       <v-list>
         <v-list-item>
           <v-list-item-content>
             <v-list-item-subtitle> 住所 </v-list-item-subtitle>
             <v-list-item-title>
-              {{ item.fullAddress }}
+              {{ props.model.fullAddress }}
             </v-list-item-title>
             <v-list-item-subtitle>
-              {{ item.address2 }}
+              {{ props.model.address2 }}
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -54,7 +61,7 @@ export default {
           <v-list-item-content>
             <v-list-item-subtitle> 電話番号 </v-list-item-subtitle>
             <v-list-item-title>
-              {{ item.tel }}
+              {{ props.model.tel }}
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -62,7 +69,7 @@ export default {
           <v-list-item-content>
             <v-list-item-subtitle> FAX番号 </v-list-item-subtitle>
             <v-list-item-title>
-              {{ item.fax }}
+              {{ props.model.fax }}
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -70,7 +77,7 @@ export default {
           <v-list-item-content>
             <v-list-item-subtitle> 法人番号 </v-list-item-subtitle>
             <v-list-item-title>
-              {{ item.companyNumber }}
+              {{ props.model.companyNumber }}
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -78,7 +85,7 @@ export default {
           <v-list-item-content>
             <v-list-item-subtitle> インボイス番号 </v-list-item-subtitle>
             <v-list-item-title>
-              {{ `T-${item.invoiceNumber}` }}
+              {{ `T-${props.model.invoiceNumber}` }}
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -86,7 +93,7 @@ export default {
           <v-list-item-content>
             <v-list-item-subtitle> 事業所整理記号 </v-list-item-subtitle>
             <v-list-item-title>
-              {{ item.jigyoushoSeiriKigou }}
+              {{ props.model.jigyoushoSeiriKigou }}
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>

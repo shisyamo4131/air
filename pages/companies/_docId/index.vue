@@ -23,14 +23,6 @@ export default {
     const docId = route.params.docId
     return { docId }
   },
-  /***************************************************************************
-   * COMPUTED
-   ***************************************************************************/
-  computed: {
-    company() {
-      return this.$store.getters['companies/get'](this.docId)
-    },
-  },
 }
 </script>
 
@@ -38,7 +30,7 @@ export default {
   <v-row>
     <v-col cols="12" md="4">
       <g-detail-card-company
-        :item="company"
+        :doc-id="docId"
         :card-props="{ actions: ['edit', 'delete'] }"
         @submit:delete="$router.replace(`/companies`)"
       />

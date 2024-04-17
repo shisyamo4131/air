@@ -4,6 +4,8 @@ export default {
    * PROPS
    ***************************************************************************/
   props: {
+    /* An object provided to the table component. */
+    cardProps: { type: Object, default: () => ({}), required: false },
     /* A string used to specified the document. */
     docId: { type: String, required: true },
     /* A function used to different process from default submit. */
@@ -14,8 +16,6 @@ export default {
     modelId: { type: String, required: true },
     /* Specifies the parent-id that the model controlled by this component depends on. */
     parentId: { type: [String, Object], default: undefined, required: false },
-    /* An object provided to the table component. */
-    cardProps: { type: Object, default: () => ({}), required: false },
   },
   /***************************************************************************
    * DATA
@@ -83,6 +83,12 @@ export default {
       },
       { immediate: true }
     )
+  },
+  /***************************************************************************
+   * DESTROYED
+   ***************************************************************************/
+  destroyed() {
+    this.model.unsubscribe()
   },
   /***************************************************************************
    * METHODS
