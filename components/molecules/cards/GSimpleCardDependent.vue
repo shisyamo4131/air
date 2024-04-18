@@ -9,7 +9,7 @@ export default {
 </script>
 
 <template>
-  <g-action-card v-slot="item" v-bind="$attrs" v-on="$listeners">
+  <g-action-card v-slot="{ item }" v-bind="$attrs" v-on="$listeners">
     <v-card-title class="justify-space-between">
       <span>
         {{ item.fullName }}

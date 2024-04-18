@@ -1,7 +1,7 @@
 <script>
 import GDocumentControllerMember from '~/components/organisms/GDocumentControllerMember.vue'
 import GDataTableDependents from '~/components/molecules/tables/GDataTableDependents.vue'
-import GManagerDependents from '~/components/organisms/GManagerDependents.vue'
+import GCollectionControllerDependents from '~/components/organisms/GCollectionControllerDependents.vue'
 /**
  * ## page.companies.docId
  *
@@ -14,7 +14,7 @@ export default {
   components: {
     GDocumentControllerMember,
     GDataTableDependents,
-    GManagerDependents,
+    GCollectionControllerDependents,
   },
   /***************************************************************************
    * ASYNCDATA
@@ -38,7 +38,7 @@ export default {
     <v-col cols="12" md="8">
       <v-card>
         <v-card-title>被扶養者リスト</v-card-title>
-        <g-manager-dependents
+        <g-collection-controller-dependents
           label="被扶養者"
           :member-id="docId"
           :dialog-props="{ 'max-width': 600 }"
@@ -56,7 +56,7 @@ export default {
               v-on="on"
             />
           </template>
-        </g-manager-dependents>
+        </g-collection-controller-dependents>
       </v-card>
     </v-col>
   </v-row>

@@ -71,7 +71,7 @@ export default {
 
 <template>
   <v-card v-bind="$attrs">
-    <slot name="default" v-bind="item" />
+    <slot name="default" v-bind="{ item }" />
     <v-card-actions class="justify-end">
       <slot name="prepend-actions" />
       <v-btn

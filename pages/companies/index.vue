@@ -1,5 +1,5 @@
 <script>
-import GManagerCompanies from '~/components/organisms/GManagerCompanies.vue'
+import GCollectionControllerCompanies from '~/components/organisms/GCollectionControllerCompanies.vue'
 /**
  * ### pages.companies.index
  * @author shisyamo4131
@@ -9,7 +9,7 @@ export default {
    * COMPONENTS
    ***************************************************************************/
   components: {
-    GManagerCompanies,
+    GCollectionControllerCompanies,
   },
   /***************************************************************************
    * METHODS
@@ -26,7 +26,7 @@ export default {
 </script>
 
 <template>
-  <g-manager-companies
+  <g-collection-controller-companies
     label="会社"
     :dialog-props="{ 'max-width': 600 }"
     :table-props="{
@@ -36,7 +36,7 @@ export default {
     }"
     @click:detail="goToDetail($event.docId)"
   >
-  </g-manager-companies>
+  </g-collection-controller-companies>
 </template>
 
 <style></style>

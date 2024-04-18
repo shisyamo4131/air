@@ -1,5 +1,5 @@
 <script>
-import GManagerMembers from '~/components/organisms/GManagerMembers.vue'
+import GCollectionControllerMembers from '~/components/organisms/GCollectionControllerMembers.vue'
 /**
  * ### pages.members.index
  * @author shisyamo4131
@@ -9,7 +9,7 @@ export default {
    * COMPONENTS
    ***************************************************************************/
   components: {
-    GManagerMembers,
+    GCollectionControllerMembers,
   },
   /***************************************************************************
    * METHODS
@@ -26,7 +26,7 @@ export default {
 </script>
 
 <template>
-  <g-manager-members
+  <g-collection-controller-members
     label="会員"
     :dialog-props="{ 'max-width': 600 }"
     :table-props="{
@@ -37,7 +37,7 @@ export default {
     }"
     @click:detail="goToDetail($event.docId)"
   >
-  </g-manager-members>
+  </g-collection-controller-members>
 </template>
 
 <style></style>
