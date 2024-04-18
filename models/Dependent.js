@@ -2,6 +2,7 @@ import FireModel from './FireModel'
 
 const props = {
   props: {
+    memberId: { type: String, default: '', required: false },
     lastName: { type: String, default: '', required: false },
     firstName: { type: String, default: '', required: false },
     lastNameKana: { type: String, default: '', required: false },
@@ -27,6 +28,8 @@ const props = {
     healthInsuranceBranch: { type: String, default: '', required: false },
     removeDate: { type: String, default: '', required: false },
     status: { type: String, default: 'active', required: false },
+    insuranceCardFile: { type: String, default: '', required: false },
+    insuranceCardFileThumb: { type: String, default: '', required: false },
     remarks: { type: String, default: '', required: false },
   },
 }
@@ -77,6 +80,13 @@ export default class Dependent extends FireModel {
             .endOf('month')
             .format('YYYY-MM-DD')
           return result
+        },
+        set(v) {},
+      },
+      imageDir: {
+        enumerable: true,
+        get() {
+          return `Images/Members/${this.memberId}/Dependents/${this.docId}`
         },
         set(v) {},
       },
