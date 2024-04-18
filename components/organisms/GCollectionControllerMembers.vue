@@ -40,10 +40,10 @@ export default {
    ***************************************************************************/
   watch: {
     companyId: {
-      handler() {
-        if (this.companyId) {
+      handler(v) {
+        if (v) {
           this.items = this.listener.subscribe(undefined, [
-            where('companyId', '==', this.companyId),
+            where('companyId', '==', v),
           ])
         } else {
           this.items = this.listener.subscribe()

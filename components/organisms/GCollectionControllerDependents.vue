@@ -23,7 +23,7 @@ export default {
    * PROPS
    ***************************************************************************/
   props: {
-    memberId: { type: String, default: '', required: false },
+    memberId: { type: String, required: true },
   },
   /***************************************************************************
    * DATA
@@ -31,7 +31,7 @@ export default {
   data() {
     return {
       items: [],
-      listener: this.$Dependent(this.memberId),
+      listener: null,
     }
   },
   /***************************************************************************
@@ -41,10 +41,8 @@ export default {
     memberId: {
       handler(v) {
         if (this.listener) this.listener.unsubscribe()
-        if (v) {
-          this.listener = this.$Dependent(v)
-          this.items = this.listener.subscribe()
-        }
+        this.listener = this.$Dependent(v)
+        this.items = this.listener.subscribe()
       },
       immediate: true,
     },
@@ -53,7 +51,7 @@ export default {
    * DESTROYED
    ***************************************************************************/
   destroyed() {
-    if (this.listener) this.listener.unsubscribe()
+    this.listener.unsubscribe()
   },
 }
 </script>
