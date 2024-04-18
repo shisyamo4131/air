@@ -5,7 +5,7 @@ import GDialogEditor from '../molecules/dialogs/GDialogEditor.vue'
 import GInputMember from '../molecules/inputs/GInputMember.vue'
 import GTextFieldSearch from '../molecules/inputs/GTextFieldSearch.vue'
 import ACollectionController from '../atoms/ACollectionController.vue'
-import GSimpleCardMember from '~/components/molecules/cards/GSimpleCardMember.vue'
+import GActionCardSimpleMember from '~/components/molecules/cards/GActionCardSimpleMember.vue'
 import GDataIterator from '~/components/molecules/tables/GDataIterator.vue'
 export default {
   /***************************************************************************
@@ -13,7 +13,7 @@ export default {
    ***************************************************************************/
   components: {
     GDataIterator,
-    GSimpleCardMember,
+    GActionCardSimpleMember,
     GDialogEditor,
     AIconRegist,
     GInputMember,
@@ -86,7 +86,7 @@ export default {
       <slot name="table" v-bind="{ attrs: table.attrs, on: table.on }">
         <g-data-iterator v-bind="table.attrs" v-on="table.on">
           <template #col="{ attrs, on }">
-            <g-simple-card-member v-bind="attrs" v-on="on" />
+            <g-action-card-simple-member v-bind="attrs" v-on="on" />
           </template>
         </g-data-iterator>
       </slot>
