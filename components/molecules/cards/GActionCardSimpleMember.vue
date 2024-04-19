@@ -1,43 +1,44 @@
 <script>
+import GIconGender from '../icons/GIconGender.vue'
 import GActionCard from './GActionCard.vue'
 export default {
   /***************************************************************************
    * COMPONENTS
    ***************************************************************************/
-  components: { GActionCard },
+  components: { GActionCard, GIconGender },
+  /***************************************************************************
+   * COMPUTED
+   ***************************************************************************/
+  computed: {
+    color() {
+      if (!this.$attrs.item.fullNameKana) return ''
+      const code = [...this.$attrs.item.fullNameKana].reduce((sum, i) => {
+        sum += i.charCodeAt(0)
+        return sum
+      }, 0)
+      return `hsl(${Number(code) % 360}, 100%, 40%)`
+    },
+  },
 }
 </script>
 
 <template>
   <g-action-card v-slot="{ item }" v-bind="$attrs" v-on="$listeners">
-    <v-list-item>
-      <v-list-item-avatar>
-        <v-avatar color="primary" dark size="36">
-          <span class="white--text">
-            {{ item.fullName.substr(0, 1) }}
-          </span>
-        </v-avatar>
-      </v-list-item-avatar>
-      <v-list-item-content>
-        <v-list-item-title>
-          <span>
-            {{ item.fullName }}
-            <v-icon small>mdi-gender-{{ item.gender }}</v-icon>
-          </span>
-        </v-list-item-title>
-        <v-list-item-subtitle>
-          {{ item.fullNameKana }}
-        </v-list-item-subtitle>
-      </v-list-item-content>
-    </v-list-item>
-    <v-card-text>
-      <v-chip small>
-        {{ $store.getters['companies/get'](item.companyId)?.abbr || '' }}
-      </v-chip>
-      <v-chip v-if="item.job" small>
-        {{ item.job }}
-      </v-chip>
-    </v-card-text>
+    <v-card-title>
+      <div
+        style="
+          border-left-color: primary;
+          border-left-style: dotted;
+          padding-left: 16px;
+        "
+      >
+        {{ item.fullName }}
+      </div>
+      <g-icon-gender :gender="item.gender" small />
+    </v-card-title>
+    <v-card-subtitle style="padding-left: 36px">
+      {{ item.fullNameKana }}
+    </v-card-subtitle>
   </g-action-card>
 </template>
 
