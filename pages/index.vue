@@ -40,7 +40,7 @@ export default {
                 </v-avatar>
                 <div>
                   <h4>会員数</h4>
-                  <h2>{{ members.length }}名</h2>
+                  <h2>{{ $store.getters['system/members'] }}名</h2>
                 </div>
               </div>
             </v-card-text>

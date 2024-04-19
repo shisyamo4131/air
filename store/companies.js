@@ -52,8 +52,14 @@ export const actions = {
       })
     })
     commit('setListener', listener)
+    // eslint-disable-next-line
+    console.info('[companies.js] Subscription of companies has been started.')
   },
   unsubscribe({ commit }) {
     commit('removeListener')
+    // eslint-disable-next-line
+    console.info(
+      '[companies.js] Subscription of companies has been unsubscribed.'
+    )
   },
 }
