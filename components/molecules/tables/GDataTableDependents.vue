@@ -47,12 +47,14 @@ export default {
     <template #[`item.fullName`]="{ item }">
       <span>{{ item.fullName }}</span>
       <span>{{ `(${$dayjs().diff($dayjs(item.birth), 'year')})` }}</span>
-      <v-chip v-if="item.isSpouse" class="ml-2" x-small color="secondary"
-        >配偶者</v-chip
-      >
     </template>
     <template #[`item.relation`]="{ item }">
-      {{ $DEPENDENT_RELATION[item.relation] }}
+      <div v-if="item.isSpouse">
+        <v-chip small color="secondary">配偶者</v-chip>
+      </div>
+      <div v-else>
+        {{ $DEPENDENT_RELATION[item.relation] }}
+      </div>
     </template>
     <template #[`item.socialInsuranceStatus`]="{ item }">
       {{ $SOCIAL_INSURANCE_STATUS[item.socialInsuranceStatus] }}
