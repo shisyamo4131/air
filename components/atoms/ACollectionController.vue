@@ -178,6 +178,7 @@ export default {
           attrs: {
             items: this.items,
             search: this.internalSearch,
+            actions: this.actions,
             ...this.tableProps,
           },
           on: {
