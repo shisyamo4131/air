@@ -28,9 +28,9 @@ export default {
 <template>
   <g-collection-controller-members
     label="会員"
+    :actions="['edit', 'delete', 'detail']"
     :dialog-props="{ 'max-width': 600 }"
     :table-props="{
-      actions: ['edit', 'delete', 'detail'],
       'hide-pagination': true,
       cols: { cols: 12, sm: 6, md: 4, lg: 3 },
       'sort-by': 'fullNameKana',

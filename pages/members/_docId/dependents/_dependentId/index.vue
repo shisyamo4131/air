@@ -27,7 +27,7 @@ export default {
       <g-document-controller-dependent
         :doc-id="dependentId"
         :member-id="memberId"
-        :card-props="{ actions: ['edit', 'delete'] }"
+        :actions="['edit', 'delete']"
         @submit:delete="$router.replace(`/members/${memberId}`)"
       />
     </v-col>

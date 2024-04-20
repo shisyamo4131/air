@@ -31,7 +31,7 @@ export default {
     <v-col cols="12" md="4">
       <g-document-controller-member
         :doc-id="docId"
-        :card-props="{ actions: ['edit', 'delete'] }"
+        :actions="['edit', 'delete']"
         @submit:delete="$router.replace(`/members`)"
       />
     </v-col>
@@ -42,9 +42,7 @@ export default {
           label="被扶養者"
           :member-id="docId"
           :dialog-props="{ 'max-width': 600 }"
-          :table-props="{
-            actions: ['edit', 'delete', 'detail'],
-          }"
+          :actions="['edit', 'delete', 'detail']"
           @click:detail="
             $router.push(`/members/${docId}/dependents/${$event.docId}`)
           "

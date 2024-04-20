@@ -28,9 +28,9 @@ export default {
 <template>
   <g-collection-controller-companies
     label="会社"
+    :actions="['edit', 'delete', 'detail']"
     :dialog-props="{ 'max-width': 600 }"
     :table-props="{
-      actions: ['edit', 'delete', 'detail'],
       'hide-pagination': true,
       cols: { cols: 12, md: 6, lg: 4, xl: 3 },
     }"
